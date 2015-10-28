@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 var f1React = require('./..');
+var Parser = require('../parser');
 
 var definition = {
   state: 'out',
@@ -21,7 +22,7 @@ var definition = {
         color: [ 255, 0, 255 ],
         position: [ 40, 0 ]
       }
-    },
+    },  
 
     idle: {
       bg: {
@@ -72,8 +73,10 @@ ReactDom.render(
       f1.go(state);
     }}
   >
-    <div style={{ width: 100, height: 50, background: '#333' }} f1-target="bg"></div>
-    <div style={{ width: 100, height: 50 }} f1-target="fg">HELLO WORLD</div>
+    <Parser f1-target={['bg', 'fg']}>
+      <div style={{ width: 100, height: 50, background: '#333' }} f1-target="bg"></div>
+      <div style={{ width: 100, height: 50 }} f1-target="fg">HELLO WORLD</div>
+    </Parser>
   </UI>, 
   container
 );

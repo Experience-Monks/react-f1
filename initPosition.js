@@ -1,6 +1,4 @@
-var updateStyleAndState = require('./lib/updateStyleAndState');
-
-module.exports = function initPosition(states, targets, transitions) {
+module.exports = function initPosition(style, states, targets, transitions) {
   var isUsed;
   var properyNames;
 
@@ -18,14 +16,13 @@ module.exports = function initPosition(states, targets, transitions) {
 
     // is position is used
     if(isUsed) {
-      setupForPosition.call(this, targets[ uiName ]);
+      setupForPosition(style);
     }
   }
 }
 
-function setupForPosition(item) {
+function setupForPosition(style) {
 
-  updateStyleAndState.call(this, item, 'position', 'absolute');
-  updateStyleAndState.call(this, item, 'left', 0);
-  updateStyleAndState.call(this, item, 'top', 0);
+  style.position = 'absolute';
+  style.left = style.top = 0;
 }

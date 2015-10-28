@@ -1,16 +1,17 @@
-var updateStyleAndState = require('./lib/updateStyleAndState');
+var updateStyleAndProps = require('./lib/updateStyleAndProps');
 
-module.exports = function anchor(item, data) {
+module.exports = function anchor(style, props) {
 
-  if( data.anchor ) {
+  if(props.anchor) {
     
-    var anchor = data.anchor;
+    var anchor = props.anchor;
     
-    updateStyleAndState.call(
-      this,
-      item, 
+    updateStyleAndProps(
+      props, 
+      style, 
+      'anchor', 
       'transformOrigin', 
       Math.round( anchor[ 0 ] * 100 ) + '% ' + Math.round( anchor[ 1 ] * 100 ) + '%'
-    );
+    ); 
   }
 };

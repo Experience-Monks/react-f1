@@ -1,16 +1,16 @@
 var getTransformMatrix = require('./lib/getTransformMatrix');
-var updateStyleAndState = require('./lib/updateStyleAndState');
+var updateStyleAndProps = require('./lib/updateStyleAndProps');
 
-module.exports = function positionScaleRotation(item, data) {
-  var transform = getTransformMatrix(data);
+module.exports = function positionScaleRotation(style, props) {
+  var transform = getTransformMatrix(props);
   var transformString;
   var perspective;
 
-  if( transform ) {
+  if(transform) {
 
     perspective = -1 / transform[ 11 ];
     transformString = 'perspective(' + perspective + 'px) matrix3d(' + Array.prototype.join.call( transform, ',' ) + ')';
 
-    updateStyleAndState.call(this, item, 'transform', transformString);
+    updateStyleAndProps(props, style, ['position', 'scale', 'rotation'], 'transform', transformString);
   }
 };

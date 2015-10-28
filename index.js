@@ -3,32 +3,59 @@ const f1 = require('f1');
 const init = require('./init');
 const update = require('./update');
 
+const TARGET_PROP_NAME = 'f1-target';
+
 module.exports = function(definition) {
 
   class F1React extends React.Component {
 
     constructor(props) {
       super(props);
-
-      this.f1Styles = {};
     }
 
     componentWillMount() {
-      let targets = React.Children.toArray(this.props.children)
-      .reduce((targets, child) => {
-        if(child.props[ 'f1-target' ]) {
-          targets[ child.props[ 'f1-target' ] ] = child.props[ 'f1-target' ]
+      let targetProps = React.Children.toArray(this.props.children)
+      .reduce((targetProps, child) => {
+
+        let target = child.props[ TARGET_PROP_NAME ];
+
+        // if this is a target we should effect
+        if(target) {
+
+          // if the target is a string we can just create one object
+          if(typeof target === 'string') {
+            targetProps[ child.props[ TARGET_PROP_NAME ] ] = {};
+
+          // if the target is an array we'll need to create many objects
+          } else if(Array.isArray(target)) {
+
+            // settup target props for all
+            target.forEach(function(targetName) {
+
+              targetProps[ targetName ] = {};
+            });
+          }
         }
 
-        return targets;
+        return targetProps;
       }, {});
+
       let ui = f1({
         states: this.props.states,
         transitions: this.props.transitions,
-        targets: targets,
+        targets: targetProps,
         parsers: {
-          init: init.map((func) => { return func.bind(this); }),
-          update: update.map((func) => { return func.bind(this); })
+          update: [
+            (target, state) => {
+              for(var i in state) {
+                target[ i ] = state[ i ];
+              }
+
+              this.setState({
+                targetProps: targetProps
+              });
+            }
+          ]
         }
       });
 
@@ -45,35 +72,42 @@ module.exports = function(definition) {
       }
     }
 
+    componentWillReceiveProps(nextProps) {
+      this.state.ui.go(nextProps.state);      
+    }
+
     render() {
 
       let children = React.Children.map(this.props.children, (child) => {
-        // let style = Object.assign(
-        //   {},
-        //   child.props.style,
-        //   this.f1Styles[ child.props[ 'f1-target' ] ]
-        // );
+        let targetName = child.props[ TARGET_PROP_NAME ];
+        let targetProps;
 
-        // return React.cloneElement(
-        //   child,
-        //   {
-        //     style: style
-        //   }
-        // );
-        
+        if(targetName && this.state.targetProps) {
 
-        var style = Object.assign(
-          {},
-          child.props.style,
-          this.f1Styles[ child.props[ 'f1-target' ] ]
-        );
+          if(typeof targetName === 'string') {
 
-        return React.cloneElement(
-          child,
-          {
-            style: style
+            targetProps = this.state.targetProps[ child.props[ TARGET_PROP_NAME ] ];   
+          } else if(Array.isArray(targetName)) {
+
+            targetProps = {};
+
+            targetName.forEach((name) => {
+              targetProps[ name ] = this.state.targetProps[ name ];  
+            });            
           }
-        );
+
+          // add in states and targets from the parent
+          // so the dom element can be reactive to them if needed
+          targetProps.states = this.props.states;
+          targetProps.transitions = this.props.transitions;
+
+          return React.cloneElement(
+            child,
+            targetProps
+          );
+        } else {
+          return child;
+        }
       });
 
       return <div {...this.props}>

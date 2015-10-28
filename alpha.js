@@ -1,8 +1,8 @@
-var updateStyleAndState = require('./lib/updateStyleAndState');
+var updateStyleAndProps = require('./lib/updateStyleAndProps');
 
-module.exports = function alpha(item, data) {
-  if(data.alpha !== undefined) {
+module.exports = function alpha(style, props) {
+  if(props.alpha !== undefined) {
 
-    updateStyleAndState.call(this, item, 'opacity', data.alpha);
+    updateStyleAndProps(props, style, 'alpha', 'opacity', props.alpha);
   }
 };
