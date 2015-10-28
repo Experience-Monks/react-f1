@@ -1,0 +1,41 @@
+{
+  "name": "f1-react",
+  "version": "1.0.0",
+  "description": "This is an implementation of f1 parsers for react",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Mikko Haapoja",
+    "email": "me@mikkoh.com",
+    "url": "https://github.com/mikkoh"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
+  "dependencies": {
+    "f1": "^6.1.2",
+    "gl-mat4": "^1.1.4",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
+  },
+  "devDependencies": {
+    "babelify": "^6.4.0",
+    "budo": "^5.1.5"
+  },
+  "keywords": [
+    "react,f1,animation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Jam3/f1-react.git"
+  },
+  "homepage": "https://github.com/Jam3/f1-react",
+  "bugs": {
+    "url": "https://github.com/Jam3/f1-react/issues"
+  }
+}
