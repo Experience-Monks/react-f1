@@ -1,6 +1,6 @@
 var React = require('react');
-var init = require('./init');
-var update = require('./update');
+var init = require('./lib/init');
+var update = require('./lib/update');
 
 const TARGET_PROP_NAME = 'f1-target';
 
