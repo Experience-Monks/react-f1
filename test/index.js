@@ -17,7 +17,7 @@ var definition = {
       },
 
       fg: {
-        alpha: 0,
+        alpha: 0.1,
         color: [ 255, 0, 255 ],
         position: [ 40, 0 ]
       }
@@ -42,18 +42,36 @@ var definition = {
   },
 
   transitions: [
-    { from: 'out', to: 'idle', animation: { duration: 1 } },
-    { from: 'idle', to: 'out' }
+    { from: 'out', to: 'idle', animation: { duration: 0.5 } },
+    { from: 'idle', to: 'out', animation: { duration: 0.1 } }
   ]
 };
 
 var UI = f1React(definition);
+var state = 'idle';
+var f1;
 
 var container = document.createElement('div');
 document.body.appendChild(container);
 
 ReactDom.render(
-  <UI onF1={function(f1) { f1.go('idle'); }}>
+  <UI 
+    onF1={function(f1Inst) { 
+      f1 = f1Inst; 
+      f1.go('idle'); 
+    }}
+
+    onClick={function() {
+
+      if(state === 'idle') {
+        state = 'out';
+      } else {
+        state = 'idle';
+      }
+
+      f1.go(state);
+    }}
+  >
     <div style={{ width: 100, height: 50, background: '#333' }} target="bg"></div>
     <div style={{ width: 100, height: 50 }} target="fg">HELLO WORLD</div>
   </UI>, 

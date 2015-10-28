@@ -62,7 +62,7 @@ module.exports = function(definition) {
         );
       });
 
-      return <div>
+      return <div {...this.props}>
         { children }
       </div>;
     }
