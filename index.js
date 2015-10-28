@@ -1,7 +1,7 @@
-var React = require('react');
-var f1 = require('f1');
-var init = require('./init');
-var update = require('./update');
+const React = require('react');
+const f1 = require('f1');
+const init = require('./init');
+const update = require('./update');
 
 module.exports = function(definition) {
 
@@ -16,8 +16,8 @@ module.exports = function(definition) {
     componentWillMount() {
       let targets = React.Children.toArray(this.props.children)
       .reduce((targets, child) => {
-        if(child.props.target) {
-          targets[ child.props.target ] = child.props.target
+        if(child.props[ 'f1-target' ]) {
+          targets[ child.props[ 'f1-target' ] ] = child.props[ 'f1-target' ]
         }
 
         return targets;
@@ -48,10 +48,24 @@ module.exports = function(definition) {
     render() {
 
       let children = React.Children.map(this.props.children, (child) => {
+        // let style = Object.assign(
+        //   {},
+        //   child.props.style,
+        //   this.f1Styles[ child.props[ 'f1-target' ] ]
+        // );
+
+        // return React.cloneElement(
+        //   child,
+        //   {
+        //     style: style
+        //   }
+        // );
+        
+
         var style = Object.assign(
           {},
           child.props.style,
-          this.f1Styles[ child.props.target ]
+          this.f1Styles[ child.props[ 'f1-target' ] ]
         );
 
         return React.cloneElement(
