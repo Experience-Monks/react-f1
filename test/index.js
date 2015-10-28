@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 var f1React = require('./..');
-var Parser = require('../parser');
+var Parser = require('../Parser');
 
 var definition = {
   state: 'out',
