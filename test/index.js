@@ -1,11 +1,11 @@
 var React = require('react');
 var ReactDom = require('react-dom');
-var F1React = require('./..');
+var f1React = require('./..');
 
-var ui = <F1React
-  state="out"
+var definition = {
+  state: 'out',
 
-  states={{
+  states: {
     out: {
       bg: {
         alpha: 0,
@@ -39,24 +39,23 @@ var ui = <F1React
         position: [ 0, 0 ]
       }
     }
-  }}
+  },
 
-  transitions={[
+  transitions: [
     { from: 'out', to: 'idle', animation: { duration: 1 } },
     { from: 'idle', to: 'out' }
-  ]}
+  ]
+};
 
-  onF1={function(ui) {
-    ui.go('idle', function() {
-      console.log('finished');
-    });
-  }}
->
-  <div style={{ width: 100, height: 50, background: '#333' }} target="bg"></div>
-  <div style={{ width: 100, height: 50 }} target="fg">HELLO WORLD</div>
-</F1React>;
+var UI = f1React(definition);
 
 var container = document.createElement('div');
 document.body.appendChild(container);
 
-ReactDom.render(ui, container);
+ReactDom.render(
+  <UI onF1={function(f1) { f1.go('idle'); }}>
+    <div style={{ width: 100, height: 50, background: '#333' }} target="bg"></div>
+    <div style={{ width: 100, height: 50 }} target="fg">HELLO WORLD</div>
+  </UI>, 
+  container
+);
