@@ -74,7 +74,7 @@ ReactDom.render(
     }}
   >
     <Parser f1-target={['bg', 'fg']}>
-      <div style={{ width: 100, height: 50, background: '#333' }} f1-target="bg"></div>
+      <div style={{ width: 100, height: 50, background: '#333' }} ref="test" f1-target="bg"></div>
       <div style={{ width: 100, height: 50 }} f1-target="fg">HELLO WORLD</div>
     </Parser>
   </UI>, 

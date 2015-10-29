@@ -1,5 +1,5 @@
 {
-  "name": "f1-react",
+  "name": "react-f1",
   "version": "1.0.0",
   "description": "This is an implementation of f1 parsers for react",
   "main": "index.js",
@@ -32,10 +32,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Jam3/f1-react.git"
+    "url": "git://github.com/Jam3/react-f1.git"
   },
-  "homepage": "https://github.com/Jam3/f1-react",
+  "homepage": "https://github.com/Jam3/react-f1",
   "bugs": {
-    "url": "https://github.com/Jam3/f1-react/issues"
+    "url": "https://github.com/Jam3/react-f1/issues"
   }
 }
