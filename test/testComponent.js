@@ -1,11 +1,11 @@
 var React = require('react');
 var ReactDom = require('react-dom');
-var f1React = require('./..');
+var F1React = require('./..');
 var Parser = require('../Parser');
 
 
 
-var UIAnimation = f1React( {
+var definition = {
   states: {
     out: {
       bg: {
@@ -59,7 +59,7 @@ var UIAnimation = f1React( {
     { from: 'idle', to: 'over', animation: { duration: 0.1 } },
     { from: 'over', to: 'idle', animation: { duration: 0.1 } }
   ]
-});
+};
 
 
 
@@ -116,7 +116,8 @@ class UI extends React.Component {
       textAlign: 'center'
     };
 
-    return <UIAnimation 
+    return <F1React 
+      {...definition}
       state={this.state.uiState} 
       onMouseOver={this.handleMouseOver} 
       onMouseOut={this.handleMouseOut}
@@ -126,7 +127,7 @@ class UI extends React.Component {
         <div f1-target='bg' style={styleBG}></div>
         <div f1-target='text' style={styleText}>{this.props.children}</div>
       </Parser>
-    </UIAnimation>
+    </F1React>
   }
 }
 

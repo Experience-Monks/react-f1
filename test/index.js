@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDom = require('react-dom');
-var f1React = require('./..');
+var F1React = require('./..');
 var Parser = require('../Parser');
 
 var definition = {
@@ -48,7 +48,6 @@ var definition = {
   ]
 };
 
-var UI = f1React(definition);
 var state = 'idle';
 var f1;
 
@@ -56,7 +55,9 @@ var container = document.createElement('div');
 document.body.appendChild(container);
 
 ReactDom.render(
-  <UI 
+  <F1React 
+    {...definition}
+
     onF1={function(f1Inst) { 
       f1 = f1Inst; 
       f1.go('idle'); 
@@ -74,9 +75,9 @@ ReactDom.render(
     }}
   >
     <Parser f1-target={['bg', 'fg']}>
-      <div style={{ width: 100, height: 50, background: '#333' }} ref="test" f1-target="bg"></div>
+      <div style={{ width: 100, height: 50, background: '#333' }} f1-target="bg"></div>
       <div style={{ width: 100, height: 50 }} f1-target="fg">HELLO WORLD</div>
     </Parser>
-  </UI>, 
+  </F1React>, 
   container
 );
