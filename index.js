@@ -9,6 +9,9 @@ class F1React extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.handleState = this.handleState.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentWillMount() {
@@ -57,6 +60,9 @@ class F1React extends React.Component {
       }
     });
 
+    ui.on('state', this.handleState);
+    ui.on('update', this.handleUpdate);
+
     this.setState({
       ui: ui
     });
@@ -71,12 +77,24 @@ class F1React extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.state.ui.go(nextProps.state);
+    this.state.ui.go(nextProps.state, nextProps.onComplete);
 
     // this is not nice calling update here
     // but theres no nice way to know if states coming
     // in are new
     this.state.ui.update();
+  }
+
+  handleState() {
+    if(this.props.onState) {
+      this.props.onState.apply(undefined, arguments);
+    }
+  }
+
+  handleUpdate() {
+    if(this.props.onUpdate) {
+      this.props.onUpdate.apply(undefined, arguments);
+    }
   }
 
   render() {

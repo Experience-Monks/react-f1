@@ -84,13 +84,17 @@ class UI extends React.Component {
 
   handleMouseOver() {
     this.setState({
-      uiState: 'over'
+      uiState: 'over',
+      onComplete: function() {
+        console.log('in over', arguments);
+      }
     });
   }
 
   handleMouseOut() {
     this.setState({
-      uiState: 'idle'
+      uiState: 'idle',
+      onComplete: null
     }); 
   }
 
@@ -119,6 +123,7 @@ class UI extends React.Component {
     return <F1React 
       {...definition}
       state={this.state.uiState} 
+      onComplete={this.state.onComplete}
       onMouseOver={this.handleMouseOver} 
       onMouseOut={this.handleMouseOut}
       style={styleButton}
