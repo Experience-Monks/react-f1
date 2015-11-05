@@ -145,6 +145,14 @@ class F1React extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+
+    // if the f1 ui instance exists we want to destroy it before its unmounted
+    if(this.state.ui) {
+      this.state.ui.destroy();
+    }
+  }
+
   render() {
 
     // we'll want to loop through all children and pass the calculated target porperties
