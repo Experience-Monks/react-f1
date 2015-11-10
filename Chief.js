@@ -9,6 +9,8 @@ class Chief extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleUpdate = this.handleUpdate.bind(this);
+
     this.state = {};
     this.chiefTargets = {};
   }
@@ -17,32 +19,19 @@ class Chief extends React.Component {
 
     var chief = f1Chief({
       transitions: this.props.transitions,
-      states: this.props.states
-    });
-
-    var children = React.Children.map(this.props.children, (child) => {
-
-      if(child.props[ TARGET_PROP_NAME ]) {
-        return React.cloneElement(
-          child,
-          {
-            onF1: this.handleChildRef.bind(this, child.props[ TARGET_PROP_NAME ])
-          }
-        );  
-      } else {
-        return child;
-      }
+      states: this.props.states,
+      onUpdate: this.handleUpdate
     });
 
     this.setState({
-      chief: chief,
-      children: children
+      chief: chief
     });
   }
 
-  handleChildRef(f1Target, f1) {
-
-    this.chiefTargets[ f1Target ] = f1;
+  handleUpdate(state) {
+    this.setState({
+      chiefState: state
+    });
   }
 
   componentDidMount() {
@@ -52,21 +41,48 @@ class Chief extends React.Component {
       chief: this.state.chief
     });
 
-    console.log(this.props.state);
     this.state.chief.init(this.props.state);
   }
 
   componentWillReceiveProps(nextProps) {
 
-    console.log(nextProps.state);
-
     this.state.chief.go(nextProps.state, nextProps.onComplete);  
   }
 
   render() {
+
+    var chiefState = this.state.chiefState;
+    var children;
+
+    if(chiefState) {
+      children = React.Children.map(this.props.children, function(child) {
+
+        var f1Target = child.props[ TARGET_PROP_NAME ];
+        var childProps = merge(
+          {},
+          child.props,
+          {
+            state: chiefState[ f1Target ]
+          }
+        );
+
+        if(f1Target) {
+
+          return React.cloneElement(
+            child,
+            childProps
+          );
+        } else {
+          return child;
+        }
+      });
+    } else {
+      children = this.props.children;
+    }
+
     return <div>
-      { this.state.children }
-    </div>
+      { children }
+    </div>;
   }
 };
 

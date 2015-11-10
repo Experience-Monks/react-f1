@@ -97,6 +97,12 @@ class UI extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      uiState: nextProps.state
+    });
+  }
+
   render() {
     var styleButton = {
       position: 'relative',

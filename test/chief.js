@@ -18,39 +18,41 @@ var states = {
   }
 };
 
+var state = 'out';
+
 var transitions = [
   { 
     from: 'out', to: 'idle', animation: {
       ui2: {
-        delay: 3
+        delay: 0.5
       }
     } 
+  },
+  {
+    from: 'idle', to: 'out'
   }
 ];
 
-ReactDom.render(
-  <Chief
-    state="out"
-    states={states}
-    transitions={transitions}
-  >
-    <UI f1-target="ui1">HELLO</UI>
-    <UI f1-target="ui2">WORLD</UI>
-  </Chief>
-, container);
+
+render();
 
 window.onclick = function() {
+  state = state === 'out' ? 'idle' : 'out';
+
+  render();
+};
+
+function render(onComplete) {
+
   ReactDom.render(
     <Chief
-      state="idle"
-      onComplete={function() {
-        console.log('in idle');
-      }}
+      state={state}
       states={states}
       transitions={transitions}
+      onComplete={onComplete}
     >
       <UI f1-target="ui1">HELLO</UI>
       <UI f1-target="ui2">WORLD</UI>
     </Chief>
-  , container);
-};
+  , container);  
+}
