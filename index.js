@@ -117,10 +117,6 @@ class F1React extends React.Component {
   // we'll initialize f1 with the current state passed in
   componentDidMount() {
     this.state.ui.init(this.props.state);
-
-    if(this.props.onF1) {
-      this.props.onF1(this.state.ui);
-    }
   }
 
   // we'll need to update f1 based on the state we should go to
