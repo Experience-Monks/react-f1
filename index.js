@@ -110,6 +110,10 @@ class F1React extends React.Component {
     });
   }
 
+  getF1() {
+    return this.state.ui;
+  }
+
   // we'll initialize f1 with the current state passed in
   componentDidMount() {
     this.state.ui.init(this.props.state);
