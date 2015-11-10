@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 var UI = require('./UI');
-var Marshal = require('../Marshal');
+var Chief = require('../Chief');
 
 var container = document.createElement('div');
 document.body.appendChild(container);
@@ -29,19 +29,19 @@ var transitions = [
 ];
 
 ReactDom.render(
-  <Marshal
+  <Chief
     state="out"
     states={states}
     transitions={transitions}
   >
     <UI f1-target="ui1">HELLO</UI>
     <UI f1-target="ui2">WORLD</UI>
-  </Marshal>
+  </Chief>
 , container);
 
 window.onclick = function() {
   ReactDom.render(
-    <Marshal
+    <Chief
       state="idle"
       onComplete={function() {
         console.log('in idle');
@@ -51,6 +51,6 @@ window.onclick = function() {
     >
       <UI f1-target="ui1">HELLO</UI>
       <UI f1-target="ui2">WORLD</UI>
-    </Marshal>
+    </Chief>
   , container);
 };

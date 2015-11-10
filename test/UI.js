@@ -118,7 +118,7 @@ class UI extends React.Component {
       width: styleButton.width,
       textAlign: 'center'
     };
-    
+  
     return <F1React 
       {...definition}
       onF1={this.props.onF1}

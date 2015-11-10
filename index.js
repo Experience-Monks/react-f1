@@ -127,8 +127,11 @@ class F1React extends React.Component {
   // we'll also pass a callback function which will be called when 
   // f1 is done doing it's thing
   componentWillReceiveProps(nextProps) {
-    this.state.ui.go(nextProps.state, nextProps.onComplete);
 
+    if(nextProps.state) {
+      this.state.ui.go(nextProps.state, nextProps.onComplete);  
+    }
+    
     // this is not nice calling update here
     // but theres no nice way to know if states coming
     // in are new

@@ -1,21 +1,21 @@
 var React = require('react');
-var f1Marshal = require('f1/Marshal');
+var f1Chief = require('f1/chief');
 var merge = require('deep-extend');
 
 const TARGET_PROP_NAME = 'f1-target';
 
-class Marshal extends React.Component {
+class Chief extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {};
-    this.marshalTargets = {};
+    this.chiefTargets = {};
   }
 
   componentWillMount() {
 
-    var marshal = f1Marshal({
+    var chief = f1Chief({
       transitions: this.props.transitions,
       states: this.props.states
     });
@@ -35,29 +35,32 @@ class Marshal extends React.Component {
     });
 
     this.setState({
-      marshal: marshal,
+      chief: chief,
       children: children
     });
   }
 
   handleChildRef(f1Target, f1) {
 
-    this.marshalTargets[ f1Target ] = f1;
+    this.chiefTargets[ f1Target ] = f1;
   }
 
   componentDidMount() {
-    this.state.marshal.targets(this.marshalTargets);
+    this.state.chief.targets(this.chiefTargets);
 
     this.setState({
-      marshal: this.state.marshal
+      chief: this.state.chief
     });
 
-    this.state.marshal.init(this.props.state);
+    console.log(this.props.state);
+    this.state.chief.init(this.props.state);
   }
 
   componentWillReceiveProps(nextProps) {
 
-    this.state.marshal.go(nextProps.state, nextProps.onComplete);  
+    console.log(nextProps.state);
+
+    this.state.chief.go(nextProps.state, nextProps.onComplete);  
   }
 
   render() {
@@ -67,4 +70,4 @@ class Marshal extends React.Component {
   }
 };
 
-module.exports = Marshal;
+module.exports = Chief;
