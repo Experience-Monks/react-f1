@@ -1,6 +1,7 @@
 var React = require('react');
 var init = require('./lib/init');
 var update = require('./lib/update');
+var merge = require('deep-extend');
 
 const TARGET_PROP_NAME = 'f1-target';
 
@@ -45,8 +46,8 @@ class Parser extends React.Component {
 
       // if this child has a f1 target prop
       if(targetName) {
-        targetProps = Object.assign({}, this.props[ targetName ], child.props);
-        targetStyle = Object.assign({}, this.state.initStyle, targetProps.style || {});
+        targetProps = merge({}, child.props, this.props[ targetName ]);
+        targetStyle = merge({}, this.state.initStyle, targetProps.style || {});
 
         update.forEach(function(func) {
           func(targetStyle, targetProps);
