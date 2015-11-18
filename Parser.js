@@ -64,7 +64,7 @@ class Parser extends React.Component {
       }
     });
     
-    return <div>
+    return <div {...this.props}>
       { children }
     </div>;
   }

@@ -54,30 +54,26 @@ var f1;
 var container = document.createElement('div');
 document.body.appendChild(container);
 
-ReactDom.render(
-  <F1React 
-    {...definition}
+render();
 
-    onF1={function(f1Inst) { 
-      f1 = f1Inst; 
-      f1.go('idle'); 
-    }}
+function render(state) {
+  state = state || 'out';
 
-    onClick={function() {
+  ReactDom.render(
+    <F1React 
+      {...definition}
+      state={state}
+      onClick={function() {
 
-      if(state === 'idle') {
-        state = 'out';
-      } else {
-        state = 'idle';
-      }
-
-      f1.go(state);
-    }}
-  >
-    <Parser f1-target={['bg', 'fg']}>
-      <div style={{ width: 100, height: 50, background: '#333' }} f1-target="bg"></div>
-      <div style={{ width: 100, height: 50 }} f1-target="fg">HELLO WORLD</div>
-    </Parser>
-  </F1React>, 
-  container
-);
+        console.log('click');
+        render('idle');
+      }}
+    >
+      <Parser f1-target={['bg', 'fg']}>
+        <div style={{ width: 100, height: 50, background: '#333' }} f1-target="bg"></div>
+        <div style={{ width: 100, height: 50 }} f1-target="fg">HELLO WORLD</div>
+      </Parser>
+    </F1React>, 
+    container
+  );
+}
