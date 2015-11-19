@@ -41,12 +41,18 @@ class Parser extends React.Component {
   render() {
     var children = React.Children.map(this.props.children, (child) => {
       var targetName = child.props[ TARGET_PROP_NAME ];
+      var childProps;
       var targetProps;
       var targetStyle;
 
       // if this child has a f1 target prop
       if(targetName) {
-        targetProps = merge({}, child.props, this.props[ targetName ]);
+        // we need to temporarily delete children if they exist otherwise the deep merge will fail
+        // because children have references to the parent
+        childProps = Object.assign({}, child.props);
+        delete childProps.children;
+
+        targetProps = merge({}, childProps, this.props[ targetName ]);
         targetStyle = merge({}, this.state.initStyle, targetProps.style || {});
 
         update.forEach(function(func) {
