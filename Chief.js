@@ -49,33 +49,54 @@ class Chief extends React.Component {
     this.state.chief.go(nextProps.state, nextProps.onComplete);  
   }
 
+  getChildrenWithTargetName(chiefState) {
+    return React.Children.map(this.props.children, function(child) {
+
+      var f1Target = child.props[ TARGET_PROP_NAME ];
+      var childProps = merge(
+        {},
+        child.props,
+        {
+          state: chiefState[ f1Target ]
+        }
+      );
+
+      if(f1Target) {
+
+        return React.cloneElement(
+          child,
+          childProps
+        );
+      } else {
+        return child;
+      }
+    });
+  }
+
+  getChildrenFromFunction(chiefState) {
+    var state = {};
+
+    for(var i in chiefState) {
+      state[ i ] = {
+        state: chiefState[ i ]
+      };
+    }
+
+    return this.props.children(state);
+  }
+
   render() {
 
     var chiefState = this.state.chiefState;
     var children;
 
     if(chiefState) {
-      children = React.Children.map(this.props.children, function(child) {
 
-        var f1Target = child.props[ TARGET_PROP_NAME ];
-        var childProps = merge(
-          {},
-          child.props,
-          {
-            state: chiefState[ f1Target ]
-          }
-        );
-
-        if(f1Target) {
-
-          return React.cloneElement(
-            child,
-            childProps
-          );
-        } else {
-          return child;
-        }
-      });
+      if(typeof this.props.children === 'function') {
+        children = this.getChildrenFromFunction(chiefState);
+      } else {
+        children = this.getChildrenWithTargetName(chiefState);
+      }
     } else {
       children = this.props.children;
     }

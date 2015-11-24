@@ -31,13 +31,9 @@ var transitions = [
   }
 ];
 
-render('out', function() {
-  console.log('in out');
-});
 
-render('idle', function() {
-  console.log('in idle');
-});
+render('out');
+render('idle');
 
 function render(state, onComplete) {
 
@@ -48,8 +44,14 @@ function render(state, onComplete) {
       transitions={transitions}
       onComplete={onComplete}
     >
-      <UI f1-target="ui1">HELLO</UI>
-      <UI f1-target="ui2">WORLD</UI>
+      {
+        function(state) {
+          return <div>
+            <UI {...state.ui1}>HELLO</UI>
+            <UI {...state.ui2}>WORLD</UI>
+          </div>;
+        }
+      }
     </Chief>
   , container);  
 }
