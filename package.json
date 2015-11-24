@@ -18,6 +18,7 @@
     ]
   },
   "dependencies": {
+    "array-union": "^1.0.1",
     "deep-extend": "^0.4.0",
     "f1": "^6.3.1",
     "gl-mat4": "^1.1.4",

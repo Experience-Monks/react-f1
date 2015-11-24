@@ -54,7 +54,7 @@ var f1;
 var container = document.createElement('div');
 document.body.appendChild(container);
 
-render();
+render(); 
 
 function render(state) {
   state = state || 'out';
@@ -71,7 +71,7 @@ function render(state) {
     >
       <Parser f1-target={['bg', 'fg']}>
         <div style={{ width: 100, height: 50, background: '#333' }} f1-target="bg"></div>
-        <div style={{ width: 100, height: 50 }} f1-target="fg">HELLO WORLD</div>
+        <div style={{ width: 100, height: 50 }} f1-target="fg">CLICK ME AND ILL ANIMATE</div>
       </Parser>
     </F1React>, 
     container

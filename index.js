@@ -3,6 +3,7 @@ const f1 = require('f1');
 const init = require('./lib/init');
 const update = require('./lib/update');
 const merge = require('deep-extend');
+const arrayUnion = require('array-union');
 
 const TARGET_PROP_NAME = 'f1-target';
 
@@ -19,42 +20,33 @@ class F1React extends React.Component {
   // create an object which will contain properties which will be passed
   // to children
   componentWillMount() {
-    let targetProps = React.Children.toArray(this.props.children)
-    .reduce((targetProps, child) => {
+    let targetProps;
 
-      let target = child.props[ TARGET_PROP_NAME ];
+    if(typeof this.props.children === 'function') {
+      targetProps = this.getTargetsFromStates();
+    } else if(React.Children.count(this.props.children) > 0) {
+      targetProps = this.getTargetsFromTargetNames();
+    } else {
+      throw new Error('react-f1 components must contain children');
+    }
 
-      // if this is a target we should effect
-      if(target) {
-
-        // if the target is a string we can just create one object
-        if(typeof target === 'string') {
-          targetProps[ child.props[ TARGET_PROP_NAME ] ] = {};
-
-        // if the target is an array we'll need to create many objects
-        } else if(Array.isArray(target)) {
-
-          // settup target props for all
-          target.forEach(function(targetName) {
-
-            targetProps[ targetName ] = {};
-          });
-        }
-      }
-
-      return targetProps;
-    }, {});
-
+    // the update function will be called whenever f1 updates
+    // one of the ui elements which in turn will call setState
+    // it would be nice to call setState only once for when all ui
+    // have been updated but it's ok for now
     let update = () => {
       this.setState({
         targetProps: targetProps
       });
     };
 
+    // create parsers we'll mainly need one parser which will be able to simple
+    // move the calculated state to the target object
     let parsers = {
       init: [],
       update: [
         (target, state) => {
+
           for(var i in state) {
             target[ i ] = state[ i ];
 
@@ -95,6 +87,7 @@ class F1React extends React.Component {
       }
     }
 
+    // create the f1 instance
     let ui = f1({
       states: this.props.states,
       transitions: this.props.transitions,
@@ -110,8 +103,48 @@ class F1React extends React.Component {
     });
   }
 
-  getF1() {
-    return this.state.ui;
+  getTargetsFromStates() {
+    let targets = {};
+    let states = this.props.states;
+    let keys = [];
+
+    for(var state in states) {
+      keys.push(Object.keys(states[ state ]));
+    }
+
+    arrayUnion.apply(undefined, keys).forEach(function(ui) {
+      targets[ ui ] = {};
+    });
+
+    return targets;
+  }
+
+  getTargetsFromTargetNames() {
+    return React.Children.toArray(this.props.children)
+    .reduce((targetProps, child) => {
+
+      let target = child.props[ TARGET_PROP_NAME ];
+
+      // if this is a target we should effect
+      if(target) {
+
+        // if the target is a string we can just create one object
+        if(typeof target === 'string') {
+          targetProps[ child.props[ TARGET_PROP_NAME ] ] = {};
+
+        // if the target is an array we'll need to create many objects
+        } else if(Array.isArray(target)) {
+
+          // settup target props for all
+          target.forEach(function(targetName) {
+
+            targetProps[ targetName ] = {};
+          });
+        }
+      }
+
+      return targetProps;
+    }, {});
   }
 
   // we'll initialize f1 with the current state passed in
@@ -156,11 +189,8 @@ class F1React extends React.Component {
     }
   }
 
-  render() {
-
-    // we'll want to loop through all children and pass the calculated target porperties
-    // to the child
-    let children = React.Children.map(this.props.children, (child) => {
+  getChildrenWithTargetName() {
+    return React.Children.map(this.props.children, (child) => {
       let targetName = child.props[ TARGET_PROP_NAME ];
       let targetProps;
 
@@ -215,6 +245,27 @@ class F1React extends React.Component {
         return child;
       }
     });
+  }
+
+  getChildrenFromFunction() {
+    if(this.state.targetProps) {
+      return this.props.children(this.state.targetProps);  
+    } else {
+      return [];
+    }
+  }
+
+  render() {
+
+    // we'll want to loop through all children and pass the calculated target porperties
+    // to the child
+    let children;
+
+    if(typeof this.props.children === 'function') {
+      children = this.getChildrenFromFunction();
+    } else if(React.Children.count(this.props.children) > 0) {
+      children = this.getChildrenWithTargetName();
+    }
 
     return <div {...this.props}>
       { children }
