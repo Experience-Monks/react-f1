@@ -14,98 +14,160 @@ class F1React extends React.Component {
 
     this.handleState = this.handleState.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+
+    this.state = {};
   }
 
   // in component will mount we'll need to create an f1 instance
   // create an object which will contain properties which will be passed
   // to children
   componentWillMount() {
-    let targets;
-
-    if(typeof this.props.children === 'function') {
-      targets = this.getTargetsFromStates();
-    } else if(React.Children.count(this.props.children) > 0) {
-      targets = this.getTargetsFromTargetNames();
-    } else {
-      throw new Error('react-f1 components must contain children');
-    }
-
-    // the update function will be called whenever f1 updates
-    // one of the ui elements which in turn will call setState
-    // it would be nice to call setState only once for when all ui
-    // have been updated but it's ok for now
-    let update = () => {
-      this.setState({
-        targets: targets
-      });
-    };
-
-    // create parsers we'll mainly need one parser which will be able to simple
-    // move the calculated state to the target object
-    let parsers = {
-      init: [],
-      update: [
-        (target, state) => {
-
-          for(var i in state) {
-            target[ i ] = state[ i ];
-
-            update();
-          }
-        }
-      ]
-    };
-
-    // now we want to add parser functions if any are defined
-    // these parser functions which are passed should be scoped to 
-    // the scope of this component also the update function which will
-    // update the state of the application should be called immediately
-    // after
-    if(this.props.parsers) {
-      if(this.props.parsers.init) {
-        let inits = this.props.parsers.init.map((parser) => {
-          return (target, state) => {
-            parser.call(this, target, state);
-
-            update();
-          };
-        });
-
-        parsers.init = parsers.init.concat(inits);
-      }
-
-      if(this.props.parsers.update) {
-        let updates = this.props.parsers.update.map((parser) => {
-          return (target, state) => {
-            parser.call(this, target, state);
-
-            update();
-          };
-        });
-
-        parsers.update = parsers.update.concat(updates);
-      }
-    }
-
-    // create the f1 instance
-    let ui = f1({
-      states: this.props.states,
-      transitions: this.props.transitions,
-      targets: targets,
-      parsers: parsers
-    });
-
-    ui.on('state', this.handleState);
-    ui.on('update', this.handleUpdate);
-
-    this.setState({
-      ui: ui
-    });
+    this.initWithProps(this.props);
   }
 
-  getTargetsFromStates() {
+  // we'll need to update f1 based on the state we should go to
+  // we'll also pass a callback function which will be called when 
+  // f1 is done doing it's thing
+  componentWillReceiveProps(nextProps) {
+
+    if(!this.state.isF1Initialized) {
+      this.initWithProps(nextProps);
+    } else {
+      if(nextProps.state) {
+        this.state.ui.go(nextProps.state, nextProps.onComplete);  
+      }
+        
+      // this is not nice calling update here
+      // but theres no nice way to know if states coming
+      // in are new
+      this.state.ui.update();
+    }
+  }
+
+  componentWillUnmount() {
+
+    // if the f1 ui instance exists we want to destroy it before its unmounted
+    if(this.state.ui) {
+      this.state.ui.destroy();
+    }
+  }
+
+  checkWeCanInit(props) {
+
+    if(!props.states) {
+      console.warn('you should pass in states to react-f1');
+    } else if(!props.transitions) {
+      console.warn('you should pass in transitions to react-f1');
+    } else if(!props.state) {
+      console.warn('you should pass in a state to react-f1');
+    } else {
+      return true;
+    }
+
+    return false;
+  }
+
+  initWithProps(props) {
+    let targets;
+
+    if(this.checkWeCanInit(props)) {
+      if(typeof props.children === 'function') {
+        targets = this.getTargetsFromStates(props);
+      } else if(React.Children.count(props.children) > 0) {
+        targets = this.getTargetsFromTargetNames(props);
+      } else {
+        throw new Error('react-f1 components must contain children');
+      }
+
+      // the update function will be called whenever f1 updates
+      // one of the ui elements which in turn will call setState
+      // it would be nice to call setState only once for when all ui
+      // have been updated but it's ok for now
+      let update = () => {
+        this.setState({
+          targets: targets
+        });
+      };
+
+      // create parsers we'll mainly need one parser which will be able to simple
+      // move the calculated state to the target object
+      let parsers = {
+        init: [],
+        update: [
+          (target, state) => {
+
+            for(var i in state) {
+              target[ i ] = state[ i ];
+
+              update();
+            }
+          }
+        ]
+      };
+
+      // now we want to add parser functions if any are defined
+      // these parser functions which are passed should be scoped to 
+      // the scope of this component also the update function which will
+      // update the state of the application should be called immediately
+      // after
+      if(props.parsers) {
+        if(props.parsers.init) {
+          let inits = props.parsers.init.map((parser) => {
+            return (target, state) => {
+              parser.call(this, target, state);
+
+              update();
+            };
+          });
+
+          parsers.init = parsers.init.concat(inits);
+        }
+
+        if(props.parsers.update) {
+          let updates = props.parsers.update.map((parser) => {
+            return (target, state) => {
+              parser.call(this, target, state);
+
+              update();
+            };
+          });
+
+          parsers.update = parsers.update.concat(updates);
+        }
+      }
+
+      // create the f1 instance
+      let ui = f1({
+        states: props.states,
+        transitions: props.transitions,
+        targets: targets,
+        parsers: parsers
+      });
+
+      ui.on('state', this.handleState);
+      ui.on('update', this.handleUpdate);
+
+      this.setState({
+        ui: ui
+      }, function() {
+        this.initF1(props);  
+      });
+    }
+  }
+
+  initF1(props) {
+    if(props.state) {
+      this.state.ui.init(props.state);
+
+      this.setState({
+        isF1Initialized: true
+      });
+    }
+  }
+
+  getTargetsFromStates(props) {
     let targets = {};
-    let states = this.props.states;
+    let states = props.states;
     let keys = [];
 
     for(var state in states) {
@@ -119,8 +181,8 @@ class F1React extends React.Component {
     return targets;
   }
 
-  getTargetsFromTargetNames() {
-    return React.Children.toArray(this.props.children)
+  getTargetsFromTargetNames(props) {
+    return React.Children.toArray(props.children)
     .reduce((targets, child) => {
 
       let target = child.props[ TARGET_PROP_NAME ];
@@ -147,26 +209,6 @@ class F1React extends React.Component {
     }, {});
   }
 
-  // we'll initialize f1 with the current state passed in
-  componentDidMount() {
-    this.state.ui.init(this.props.state);
-  }
-
-  // we'll need to update f1 based on the state we should go to
-  // we'll also pass a callback function which will be called when 
-  // f1 is done doing it's thing
-  componentWillReceiveProps(nextProps) {
-
-    if(nextProps.state) {
-      this.state.ui.go(nextProps.state, nextProps.onComplete);  
-    }
-      
-    // this is not nice calling update here
-    // but theres no nice way to know if states coming
-    // in are new
-    this.state.ui.update();
-  }
-
   // this function will be called each time f1 enters a state
   handleState() {
     if(this.props.onState) {
@@ -178,14 +220,6 @@ class F1React extends React.Component {
   handleUpdate() {
     if(this.props.onUpdate) {
       this.props.onUpdate.apply(undefined, arguments);
-    }
-  }
-
-  componentWillUnmount() {
-
-    // if the f1 ui instance exists we want to destroy it before its unmounted
-    if(this.state.ui) {
-      this.state.ui.destroy();
     }
   }
 
@@ -256,17 +290,19 @@ class F1React extends React.Component {
   }
 
   render() {
-
     // we'll want to loop through all children and pass the calculated target porperties
     // to the child
     let children;
 
-    if(typeof this.props.children === 'function') {
-      children = this.getChildrenFromFunction();
-    } else if(React.Children.count(this.props.children) > 0) {
-      children = this.getChildrenWithTargetName();
+    // if f1 is initialized then we'll render children otherwise render nothing
+    if(this.state.isF1Initialized) {
+      if(typeof this.props.children === 'function') {
+        children = this.getChildrenFromFunction();
+      } else if(React.Children.count(this.props.children) > 0) {
+        children = this.getChildrenWithTargetName();
+      }
     }
-
+    
     return <div {...this.props}>
       { children }
     </div>;

@@ -4,8 +4,6 @@ var F1React = require('./..');
 var Parser = require('../Parser');
 
 var definition = {
-  state: 'out',
-
   states: {
     out: {
       bg: {
@@ -65,8 +63,11 @@ function render(state) {
       state={state}
       onClick={function() {
 
-        console.log('click');
-        render('idle');
+        if(state === 'out') {
+          render('idle');  
+        } else {
+          render('out');
+        }
       }}
     >
       <Parser f1-target={['bg', 'fg']}>
