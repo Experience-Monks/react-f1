@@ -20,12 +20,12 @@ class F1React extends React.Component {
   // create an object which will contain properties which will be passed
   // to children
   componentWillMount() {
-    let targetProps;
+    let targets;
 
     if(typeof this.props.children === 'function') {
-      targetProps = this.getTargetsFromStates();
+      targets = this.getTargetsFromStates();
     } else if(React.Children.count(this.props.children) > 0) {
-      targetProps = this.getTargetsFromTargetNames();
+      targets = this.getTargetsFromTargetNames();
     } else {
       throw new Error('react-f1 components must contain children');
     }
@@ -36,7 +36,7 @@ class F1React extends React.Component {
     // have been updated but it's ok for now
     let update = () => {
       this.setState({
-        targetProps: targetProps
+        targets: targets
       });
     };
 
@@ -91,7 +91,7 @@ class F1React extends React.Component {
     let ui = f1({
       states: this.props.states,
       transitions: this.props.transitions,
-      targets: targetProps,
+      targets: targets,
       parsers: parsers
     });
 
@@ -121,7 +121,7 @@ class F1React extends React.Component {
 
   getTargetsFromTargetNames() {
     return React.Children.toArray(this.props.children)
-    .reduce((targetProps, child) => {
+    .reduce((targets, child) => {
 
       let target = child.props[ TARGET_PROP_NAME ];
 
@@ -130,7 +130,7 @@ class F1React extends React.Component {
 
         // if the target is a string we can just create one object
         if(typeof target === 'string') {
-          targetProps[ child.props[ TARGET_PROP_NAME ] ] = {};
+          targets[ child.props[ TARGET_PROP_NAME ] ] = {};
 
         // if the target is an array we'll need to create many objects
         } else if(Array.isArray(target)) {
@@ -138,12 +138,12 @@ class F1React extends React.Component {
           // settup target props for all
           target.forEach(function(targetName) {
 
-            targetProps[ targetName ] = {};
+            targets[ targetName ] = {};
           });
         }
       }
 
-      return targetProps;
+      return targets;
     }, {});
   }
 
@@ -192,22 +192,22 @@ class F1React extends React.Component {
   getChildrenWithTargetName() {
     return React.Children.map(this.props.children, (child) => {
       let targetName = child.props[ TARGET_PROP_NAME ];
-      let targetProps;
+      let targets;
 
       // if this child has a target name then we should handle it and
-      // if we have calculated targetProps otherwise we'll just return the child
+      // if we have calculated targets otherwise we'll just return the child
       // as is
-      if(targetName && this.state.targetProps) {
+      if(targetName && this.state.targets) {
         // we'll check if this targetName is a string if so we can simply just get the
         // object which is the currently calculated target properties
         if(typeof targetName === 'string') {
 
-          targetProps = this.state.targetProps[ child.props[ TARGET_PROP_NAME ] ];   
+          targets = this.state.targets[ child.props[ TARGET_PROP_NAME ] ];   
 
           // add in states and targets from the parent
           // so the dom element can be reactive to them if needed
-          targetProps.states = this.props.states;
-          targetProps.transitions = this.props.transitions;
+          targets.states = this.props.states;
+          targets.transitions = this.props.transitions;
 
           // we'll return a child component with the new target properties
           return React.cloneElement(
@@ -215,28 +215,28 @@ class F1React extends React.Component {
             merge(
               {},
               child.props,
-              targetProps  
+              targets  
             )
           );
         // if targetName is an array this child component will be handling many targets
         // therefore we need to create an object that contains all target properties
         } else if(Array.isArray(targetName)) {
 
-          targetProps = {};
+          targets = {};
 
           targetName.forEach((name) => {
-            targetProps[ name ] = this.state.targetProps[ name ];  
+            targets[ name ] = this.state.targets[ name ];  
           });      
 
           // add in states and targets from the parent
           // so the dom element can be reactive to them if needed
-          targetProps.states = this.props.states;
-          targetProps.transitions = this.props.transitions;
+          targets.states = this.props.states;
+          targets.transitions = this.props.transitions;
 
           // we'll return a child component with the new target properties
           return React.cloneElement(
             child,
-            targetProps
+            targets
           );      
         } else {
           throw new Error(TARGET_PROP_NAME + ' cannot be of type ' + (typeof targetName));
@@ -248,8 +248,8 @@ class F1React extends React.Component {
   }
 
   getChildrenFromFunction() {
-    if(this.state.targetProps) {
-      return this.props.children(this.state.targetProps);  
+    if(this.state.targets) {
+      return this.props.children(this.state.targets);  
     } else {
       return [];
     }

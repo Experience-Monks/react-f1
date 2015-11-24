@@ -39,8 +39,10 @@ function render(state) {
     transitions={transitions}
   >
     {
-      function(state) {
-        return <div {...state.item}>HELLO</div>;
+      (state) => {
+        return <div>
+          <div {...state.item}>HELLO</div>
+        </div>;
       }
     }
   </ReactF1>, container);
