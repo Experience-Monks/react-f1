@@ -290,6 +290,7 @@ class F1React extends React.Component {
   getChildrenFromFunction() {
     if(this.state.targets) {
       let states = merge(
+        {},
         this.props.baseStates,
         this.state.targets  
       );
