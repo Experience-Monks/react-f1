@@ -37,6 +37,13 @@ function render(state) {
     state={state}
     states={states} 
     transitions={transitions}
+    baseStates={{
+      item: {
+        style: {
+          background: '#CAFE00'
+        }
+      }
+    }}
   >
     {
       (state) => {

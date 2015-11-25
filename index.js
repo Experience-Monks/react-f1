@@ -236,7 +236,13 @@ class F1React extends React.Component {
         // object which is the currently calculated target properties
         if(typeof targetName === 'string') {
 
-          targets = this.state.targets[ child.props[ TARGET_PROP_NAME ] ];   
+          // we'll get the caculated states/props for this component and we'll need
+          // to merge in baseStates
+          targets = merge(
+            {},
+            this.props.baseStates && this.props.baseStates[ TARGET_PROP_NAME ],
+            this.state.targets[ child.props[ TARGET_PROP_NAME ] ]
+          );
 
           // add in states and targets from the parent
           // so the dom element can be reactive to them if needed
@@ -283,7 +289,12 @@ class F1React extends React.Component {
 
   getChildrenFromFunction() {
     if(this.state.targets) {
-      return this.props.children(this.state.targets);  
+      let states = merge(
+        this.props.baseStates,
+        this.state.targets  
+      );
+
+      return this.props.children(states);  
     } else {
       return [];
     }
