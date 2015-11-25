@@ -20,7 +20,7 @@
   "dependencies": {
     "array-union": "^1.0.1",
     "deep-extend": "^0.4.0",
-    "f1": "^6.3.1",
+    "f1": "^6.3.3",
     "gl-mat4": "^1.1.4",
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
