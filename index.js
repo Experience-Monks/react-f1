@@ -83,25 +83,28 @@ class F1React extends React.Component {
       // one of the ui elements which in turn will call setState
       // it would be nice to call setState only once for when all ui
       // have been updated but it's ok for now
-      let update = () => {
+      let update = (target) => {
         this.setState({
           targets: targets
         });
       };
 
-      // create parsers we'll mainly need one parser which will be able to simple
-      // move the calculated state to the target object
+      // setup the base parsers
+      // the first function should just transfer props from state to the target
+      // after that we'll add in CSS specific helper parsers
       let parsers = {
         init: [],
         update: [
           (target, state) => {
-
-            for(var i in state) {
-              target[ i ] = state[ i ];
-
-              update();
-            }
-          }
+            merge(
+              target,
+              state
+            );
+          },
+          require('./lib/styleParser/color'),
+          require('./lib/styleParser/backgroundColor'),
+          require('./lib/styleParser/transformOrigin'),
+          require('./lib/styleParser/transform')
         ]
       };
 
@@ -135,6 +138,10 @@ class F1React extends React.Component {
           parsers.update = parsers.update.concat(updates);
         }
       }
+
+      // we need to add the update function to the last update function
+      // this will cause setState to be called
+      parsers.update.push(update);
 
       // create the f1 instance
       let ui = f1({
