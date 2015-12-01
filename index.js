@@ -16,7 +16,7 @@ class ReactF1 extends React.Component {
   componentWillReceiveProps(nextProps) {
     if(nextProps.state !== this.state.f1State) {
       if(this.state.f1) {
-        this.state.f1.go(nextProps.state);
+        this.state.f1.go(nextProps.state, nextProps.onComplete);
 
         this.setState({
           f1State: nextProps.state
