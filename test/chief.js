@@ -48,8 +48,8 @@ function render(state, onComplete) {
       transitions={transitions}
       onComplete={onComplete}
     >
-      <UI f1-target="ui1">HELLO</UI>
-      <UI f1-target="ui2">WORLD</UI>
+      <UI data-f1="ui1">HELLO</UI>
+      <UI data-f1="ui2">WORLD</UI>
     </Chief>
   , container);  
 }

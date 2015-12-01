@@ -2,7 +2,7 @@ var React = require('react');
 var f1Chief = require('f1/chief');
 var merge = require('deep-extend');
 
-const TARGET_PROP_NAME = 'f1-target';
+const TARGET_PROP_NAME = 'data-f1';
 
 class Chief extends React.Component {
 
