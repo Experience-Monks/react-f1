@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 var f1DOM = require('f1-dom');
+var merge = require('deep-extend');
 
 class ReactF1 extends React.Component {
 
@@ -14,6 +15,17 @@ class ReactF1 extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    var states;
+
+    if(nextProps.states) {
+      states = this.state.states;
+
+      merge(
+        states,
+        nextProps.states
+      );
+    }
+
     if(nextProps.state !== this.state.f1State) {
       if(this.state.f1) {
         this.state.f1.go(nextProps.state, nextProps.onComplete);
@@ -36,7 +48,8 @@ class ReactF1 extends React.Component {
 
     this.setState({
       f1: f1,
-      f1State: this.props.state
+      f1State: this.props.state,
+      states: this.props.states
     });
   }
 
