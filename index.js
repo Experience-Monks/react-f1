@@ -14,6 +14,25 @@ class ReactF1 extends React.Component {
     };
   }
 
+  setupListenersFromProps(props) {
+    this.setState({
+      onUpdate: props.onUpdate,
+      onState: props.onState
+    });
+  }
+
+  handleUpdate() {
+    if(this.state.onUpdate) {
+      this.state.onUpdate.apply(undefined, arguments);
+    }
+  }
+
+  handleState() {
+    if(this.state.onState) {
+      this.state.onState.apply(undefined, arguments);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     var states;
 
@@ -42,49 +61,7 @@ class ReactF1 extends React.Component {
       }
     }
 
-    this.setupListenersFromProps(this.state.f1, nextProps);
-  }
-
-  setupListenersFromProps(f1, props) {
-    if(props.onState) {
-      if(props.onState !== this.state.onState) {
-        if(this.state.onState) {
-          f1.removeListener('state', this.state.onState);        
-        }
-
-        f1.on('state', props.onState);
-
-        this.setState({
-          onState: props.onState
-        });
-      }
-    } else if(this.state.onState) {
-      f1.removeListener('state', this.state.onState);
-
-      this.setState({
-        onState: null
-      });
-    }
-
-    if(props.onUpdate) {
-      if(props.onUpdate !== this.state.onUpdate) {
-        if(this.state.onUpdate) {
-          f1.removeListener('update', this.state.onUpdate);        
-        }
-
-        f1.on('update', props.onUpdate);
-
-        this.setState({
-          onUpdate: props.onUpdate
-        });
-      }
-    } else if(this.state.onUpdate) {
-      f1.removeListener('update', this.state.onUpdate);
-
-      this.setState({
-        onUpdate: null
-      });
-    }
+    this.setupListenersFromProps(nextProps);
   }
 
   componentDidMount() {
@@ -95,7 +72,9 @@ class ReactF1 extends React.Component {
       transitions: this.props.transitions
     });
 
-    this.setupListenersFromProps(f1, this.props);
+    f1.on('state', this.handleState.bind(this));
+    f1.on('update', this.handleUpdate.bind(this));
+    this.setupListenersFromProps(this.props);
 
     this.setState({
       f1: f1,
