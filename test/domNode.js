@@ -11,6 +11,16 @@ render('idle');
 function render(state) {
   state = state || 'idle';
 
+  var events = {
+    onState: function() {
+      console.log('state', arguments);
+    },
+
+    onUpdate: function() {
+      console.log('update', arguments);
+    }
+  };
+
   ReactDom.render(
     <ReactF1
       state={state}
@@ -42,6 +52,7 @@ function render(state) {
       transitions={[
         { from: 'out', to: 'idle', bi: true }
       ]}
+      {...events}
     >
       <div data-f1="item1">something</div>
     </ReactF1>,

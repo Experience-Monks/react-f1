@@ -41,6 +41,38 @@ class ReactF1 extends React.Component {
         });
       }
     }
+
+    this.setupListenersFromProps(this.state.f1, nextProps);
+  }
+
+  setupListenersFromProps(f1, props) {
+    if(props.onState) {
+      f1.on('state', props.onState);
+
+      this.setState({
+        onState: props.onState
+      });
+    } else if(this.state.onState) {
+      f1.removeListener('state', this.state.onState);
+
+      this.setState({
+        onState: null
+      });
+    }
+
+    if(props.onUpdate) {
+      f1.on('update', props.onUpdate);
+
+      this.setState({
+        onUpdate: props.onUpdate
+      });
+    } else if(this.state.onUpdate) {
+      f1.removeListener('state', this.state.onUpdate);
+
+      this.setState({
+        onUpdate: null
+      });
+    }
   }
 
   componentDidMount() {
@@ -49,14 +81,17 @@ class ReactF1 extends React.Component {
       el: el,
       states: this.props.states,
       transitions: this.props.transitions
-    })
-    .init(this.props.state);
+    });
+
+    this.setupListenersFromProps(f1, this.props);
 
     this.setState({
       f1: f1,
       f1State: this.props.state,
       states: this.props.states
     });
+
+    f1.init(this.props.state);
   }
 
   componentWillUnmount() {
