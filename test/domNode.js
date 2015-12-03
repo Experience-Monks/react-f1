@@ -13,11 +13,11 @@ function render(state) {
 
   var events = {
     onState: function() {
-      console.log('state', arguments);
+      // console.log('state', arguments);
     },
 
     onUpdate: function() {
-      console.log('update', arguments);
+      // console.log('update', arguments);
     }
   };
 

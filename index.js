@@ -92,7 +92,22 @@ class ReactF1 extends React.Component {
   }
 
   render() {
-    return <div {...this.props}>
+    var style = this.props.style;
+
+    if(!this.state.f1) {
+      style = merge(
+        {},
+        this.props.style,
+        {
+          display: 'none'
+        }
+      );  
+    }
+    
+    return <div 
+      {...this.props}
+      style={style}
+    >
       { this.props.children }
     </div>;
   }
