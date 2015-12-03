@@ -47,7 +47,7 @@ class ReactF1 extends React.Component {
 
   setupListenersFromProps(f1, props) {
     if(props.onState) {
-      if(props.onUpdate !== this.state.onState) {
+      if(props.onState !== this.state.onState) {
         if(this.state.onState) {
           f1.removeListener('state', this.state.onState);        
         }
