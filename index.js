@@ -47,11 +47,17 @@ class ReactF1 extends React.Component {
 
   setupListenersFromProps(f1, props) {
     if(props.onState) {
-      f1.on('state', props.onState);
+      if(props.onUpdate !== this.state.onState) {
+        if(this.state.onState) {
+          f1.removeListener('state', this.state.onState);        
+        }
 
-      this.setState({
-        onState: props.onState
-      });
+        f1.on('state', props.onState);
+
+        this.setState({
+          onState: props.onState
+        });
+      }
     } else if(this.state.onState) {
       f1.removeListener('state', this.state.onState);
 
@@ -61,13 +67,19 @@ class ReactF1 extends React.Component {
     }
 
     if(props.onUpdate) {
-      f1.on('update', props.onUpdate);
+      if(props.onUpdate !== this.state.onUpdate) {
+        if(this.state.onUpdate) {
+          f1.removeListener('update', this.state.onUpdate);        
+        }
 
-      this.setState({
-        onUpdate: props.onUpdate
-      });
+        f1.on('update', props.onUpdate);
+
+        this.setState({
+          onUpdate: props.onUpdate
+        });
+      }
     } else if(this.state.onUpdate) {
-      f1.removeListener('state', this.state.onUpdate);
+      f1.removeListener('update', this.state.onUpdate);
 
       this.setState({
         onUpdate: null
