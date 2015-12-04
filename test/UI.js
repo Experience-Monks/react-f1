@@ -1,42 +1,53 @@
 var React = require('react');
 var F1React = require('./..');
-var Parser = require('../Parser');
 
 var definition = {
   states: {
     out: {
       bg: {
-        position: [ 0, 10, 0 ],
-        alpha: 0
+        style: {
+          translate: [ 0, 10, 0 ],
+          opacity: 0
+        }
       },
 
       text: {
-        position: [ 30, 10, 0 ],
-        alpha: 0
+        style: {
+          translate: [ 30, 10, 0 ],
+          opacity: 0
+        }
       }
     },
 
     idle: {
       bg: {
-        position: [ 0, 0, 0 ],
-        alpha: 1
+        style: {
+          translate: [ 0, 0, 0 ],
+          opacity: 1
+        }
       },
 
       text: {
-        position: [ 0, 0, 0 ],
-        alpha: 1
+        style: {
+          translate: [ 0, 0, 0 ],
+          opacity: 1
+        }
       }
     },
 
     over: {
       bg: {
-        position: [ 0, 0, 0 ],
-        alpha: 1
+        style: {
+          translate: [ 0, 0, 0 ],
+          opacity: 1
+        }
       },
 
       text: {
-        position: [ 10, 0, 0 ],
-        alpha: 1
+        style: {
+          translate: [ 10, 0, 0 ],
+          opacity: 1
+        }
       }
     }
   },
@@ -46,8 +57,8 @@ var definition = {
         duration: 0.5, // overall ui will have a duration of 0.5 seconds
         text: {
           delay: 0.3, // text animating will be delayed by 0.3 seconds
-          position: {
-            1: { delay: 0 }  // however the y property or index 1 of the position array will have a delay of 0
+          translate: {
+            1: { delay: 0 }  // however the y property or index 1 of the translate array will have a delay of 0
           }
         }
       } 
@@ -113,12 +124,18 @@ class UI extends React.Component {
     };
 
     var styleBG = {
+      position: 'absolute',
+      left: 0,
+      top: 0,
       width: styleButton.width,
       height: styleButton.height,
       background: '#00CAFE'
     };
 
     var styleText = {
+      position: 'absolute',
+      left: 0,
+      top: 0,
       fontSize: 20,
       paddingTop: (styleButton.height - 20) * 0.5,
       width: styleButton.width,
@@ -134,10 +151,8 @@ class UI extends React.Component {
       onMouseOut={this.handleMouseOut}
       style={styleButton}
     >
-      <Parser f1-target={['bg', 'text']}>
-        <div f1-target='bg' style={styleBG}></div>
-        <div f1-target='text' style={styleText}>{this.props.children}</div>
-      </Parser>
+      <div data-f1='bg' style={styleBG}></div>
+      <div data-f1='text' style={styleText}>{this.props.children}</div>
     </F1React>
   }
 }
