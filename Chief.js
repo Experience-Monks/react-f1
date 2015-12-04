@@ -101,7 +101,9 @@ class Chief extends React.Component {
       children = this.props.children;
     }
 
-    return <div>
+    return <div
+      {...this.props}
+    >
       { children }
     </div>;
   }
