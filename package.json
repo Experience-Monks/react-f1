@@ -22,8 +22,10 @@
     "deep-extend": "^0.4.0",
     "f1": "^7.0.1",
     "f1-dom": "^7.0.0",
-    "gl-mat4": "^1.1.4",
-    "react": "^0.14.2",
+    "gl-mat4": "^1.1.4"
+  },
+  "peerDependencies": {
+    "react": "^0.14.3",
     "react-dom": "^0.14.0"
   },
   "devDependencies": {
