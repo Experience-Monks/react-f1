@@ -48,7 +48,9 @@ class ReactF1 extends React.Component {
       });
 
       // force an update to f1 since we received new props
-      this.state.f1.update();
+      if(this.state.f1) {
+        this.state.f1.update();
+      } 
     }
 
     if(nextProps.state !== this.state.f1State) {
