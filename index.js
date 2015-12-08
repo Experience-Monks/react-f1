@@ -6,15 +6,79 @@ var merge = require('deep-extend');
 class ReactF1 extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
 
+    this.hasMounted = false;
     this.state = {
       f1: null,
       f1State: null
     };
   }
 
-  setupListenersFromProps(props) {
+  setupFromProps(props) {
+    if(!this.state.f1) {
+      this.initFromProps(props);
+    } else {
+      this.updateFromProps(props);
+    }
+  }
+
+  initFromProps(props) {
+    if(this.hasMounted && props.state && props.states && props.transitions) {
+
+      var el = ReactDom.findDOMNode(this);
+      var f1 = f1DOM({
+        el: el,
+        states: props.states,
+        transitions: props.transitions
+      });
+
+      f1.on('state', this.handleState.bind(this));
+      f1.on('update', this.handleUpdate.bind(this));
+      this.updateListenersFromProps(props);
+
+      this.setState({
+        f1: f1,
+        f1State: props.state,
+        states: props.states
+      });
+
+      f1.init(props.state);
+    }
+  }
+
+  updateFromProps(props) {
+    var states;
+
+    if(props.states) {
+
+      merge(
+        this.state.states,
+        props.states
+      );
+
+      this.setState({
+        states: this.state.states
+      });
+
+      // force an update to f1 since we received new props
+      this.state.f1.update();
+    }
+
+    if(props.state && props.state !== this.state.f1State) {
+      if(this.state.f1) {
+        this.state.f1.go(props.state, props.onComplete);
+
+        this.setState({
+          f1State: props.state
+        });
+      }
+    }
+
+    this.updateListenersFromProps(props);
+  }
+
+  updateListenersFromProps(props) {
     this.setState({
       onUpdate: props.onUpdate,
       onState: props.onState
@@ -34,57 +98,12 @@ class ReactF1 extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    var states;
-
-    if(nextProps.states) {
-
-      merge(
-        this.state.states,
-        nextProps.states
-      );
-
-      this.setState({
-        states: this.state.states
-      });
-
-      // force an update to f1 since we received new props
-      if(this.state.f1) {
-        this.state.f1.update();
-      } 
-    }
-
-    if(nextProps.state !== this.state.f1State) {
-      if(this.state.f1) {
-        this.state.f1.go(nextProps.state, nextProps.onComplete);
-
-        this.setState({
-          f1State: nextProps.state
-        });
-      }
-    }
-
-    this.setupListenersFromProps(nextProps);
+    this.setupFromProps(nextProps);
   }
 
   componentDidMount() {
-    var el = ReactDom.findDOMNode(this);
-    var f1 = f1DOM({
-      el: el,
-      states: this.props.states,
-      transitions: this.props.transitions
-    });
-
-    f1.on('state', this.handleState.bind(this));
-    f1.on('update', this.handleUpdate.bind(this));
-    this.setupListenersFromProps(this.props);
-
-    this.setState({
-      f1: f1,
-      f1State: this.props.state,
-      states: this.props.states
-    });
-
-    f1.init(this.props.state);
+    this.hasMounted = true;
+    this.setupFromProps(this.props);
   }
 
   componentWillUnmount() {
