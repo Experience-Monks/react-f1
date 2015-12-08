@@ -46,23 +46,39 @@ class Chief extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 
-    this.state.chief.go(nextProps.state, nextProps.onComplete);  
+    if(this.state.propsState !== nextProps.state || this.state.propsOnComplete !== nextProps.onComplete) {
+      this.state.chief.go(nextProps.state, nextProps.onComplete);
+
+      this.countTargetsIn = 0;
+      this.countTargets = Object.keys(nextProps.states[nextProps.state]).length;
+
+      this.setState({
+        propsState: nextProps.state,
+        propsOnComplete: nextProps.onComplete
+      })
+    }
   }
 
   getChildrenWithTargetName(chiefState) {
-    return React.Children.map(this.props.children, function(child) {
+    return React.Children.map(this.props.children, (child) => {
 
       var f1Target = child.props[ TARGET_PROP_NAME ];
       var childProps = merge(
         {},
         child.props,
         {
-          state: chiefState[ f1Target ]
+          state: chiefState[ f1Target ],
+          onComplete: () => {
+            this.countTargetsIn++;
+
+            if(this.countTargetsIn === this.countTargets) {
+              this.props.onComplete();
+            }
+          }
         }
       );
 
       if(f1Target) {
-
         return React.cloneElement(
           child,
           childProps
@@ -107,6 +123,10 @@ class Chief extends React.Component {
       { children }
     </div>;
   }
+};
+
+Chief.defaultProps = {
+  onComplete: function() {}
 };
 
 module.exports = Chief;

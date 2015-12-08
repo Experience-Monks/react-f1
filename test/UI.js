@@ -80,15 +80,20 @@ class UI extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this);
 
     this.state = {
-      uiState: 'out'
+      uiState: 'out',
+      onComplete: () => {
+        this.props.onComplete();
+      }
     };
   }
 
   handleMouseOver() {
     this.setState({
       uiState: 'over',
-      onComplete: function() {
+      onComplete: () => {
         console.log('in over', arguments);
+
+        this.props.onComplete();
       }
     });
   }
@@ -96,8 +101,10 @@ class UI extends React.Component {
   handleMouseOut() {
     this.setState({
       uiState: 'idle',
-      onComplete: function() {
+      onComplete: () => {
         console.log('in idle', arguments);
+
+        this.props.onComplete();
       }
     }); 
   }
@@ -156,5 +163,9 @@ class UI extends React.Component {
     </F1React>
   }
 }
+
+UI.defaultProps = {
+  onComplete: function() {}
+};
 
 module.exports = UI;
