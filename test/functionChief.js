@@ -33,7 +33,9 @@ var transitions = [
 
 
 render('out');
-render('idle');
+render('idle', function() {
+  console.log('is in idle');
+});
 
 function render(state, onComplete) {
 
