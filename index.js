@@ -9,14 +9,15 @@ class ReactF1 extends React.Component {
     super(props);
 
     this.hasMounted = false;
+    this.f1 = null;
+
     this.state = {
-      f1: null,
       f1State: null
     };
   }
 
   setupFromProps(props) {
-    if(!this.state.f1) {
+    if(!this.f1) {
       this.initFromProps(props);
     } else {
       this.updateFromProps(props);
@@ -27,7 +28,7 @@ class ReactF1 extends React.Component {
     if(this.hasMounted && props.state && props.states && props.transitions) {
 
       var el = ReactDom.findDOMNode(this);
-      var f1 = f1DOM({
+      var f1 = this.f1 = f1DOM({
         el: el,
         states: props.states,
         transitions: props.transitions
@@ -38,7 +39,6 @@ class ReactF1 extends React.Component {
       this.updateListenersFromProps(props);
 
       this.setState({
-        f1: f1,
         f1State: props.state,
         states: props.states
       });
@@ -62,12 +62,12 @@ class ReactF1 extends React.Component {
       });
 
       // force an update to f1 since we received new props
-      this.state.f1.update();
+      this.f1.update();
     }
 
     if(props.state && props.state !== this.state.f1State) {
-      if(this.state.f1) {
-        this.state.f1.go(props.state, props.onComplete);
+      if(this.f1) {
+        this.f1.go(props.state, props.onComplete);
 
         this.setState({
           f1State: props.state
@@ -107,15 +107,15 @@ class ReactF1 extends React.Component {
   }
 
   componentWillUnmount() {
-    if(this.state.f1) {
-      this.state.f1.destroy();
+    if(this.f1) {
+      this.f1.destroy();
     } 
   }
 
   render() {
     var style = this.props.style;
 
-    if(!this.state.f1) {
+    if(!this.f1) {
       style = merge(
         {},
         this.props.style,
