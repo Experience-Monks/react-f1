@@ -1,6 +1,6 @@
 {
   "name": "react-f1",
-  "version": "4.1.10",
+  "version": "4.1.11",
   "description": "This is an implementation of f1 parsers for react",
   "main": "index.js",
   "license": "MIT",
