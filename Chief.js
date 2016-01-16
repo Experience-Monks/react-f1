@@ -30,9 +30,13 @@ class Chief extends React.Component {
   }
 
   handleUpdate(state) {
-    this.setState({
-      chiefState: state
-    });
+
+    // added this check just to ensure kimi doesnt throw one final update
+    if(this.isMounted()) {
+      this.setState({
+        chiefState: state
+      });  
+    }
   }
 
   handleTargetInState() {
