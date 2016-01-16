@@ -55,7 +55,10 @@ class Chief extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 
-    if(this.state.propsState !== nextProps.state || this.state.propsOnComplete !== nextProps.onComplete) {
+    if(
+      nextProps.state &&
+      (this.state.propsState !== nextProps.state || this.state.propsOnComplete !== nextProps.onComplete)
+    ) {
       this.state.chief.go(nextProps.state, nextProps.onComplete);
 
       this.countTargetsIn = 0;
