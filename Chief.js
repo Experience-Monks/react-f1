@@ -45,7 +45,7 @@ class Chief extends React.Component {
     this.countTargetsIn++;
 
     if(this.countTargetsIn === this.countTargets) {
-      this.props.onComplete();
+      this.props.onComplete(this.props.state);
     }
   }
 
