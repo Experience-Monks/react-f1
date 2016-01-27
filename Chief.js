@@ -41,7 +41,7 @@ class Chief extends React.Component {
     });  
   }
 
-  handleTargetInState(idx) {
+  handleTargetInState(idx, name) {
     
     var countIn;
 
@@ -51,6 +51,10 @@ class Chief extends React.Component {
       return value ? count + 1 : count;
     }, 0);
 
+    if(this.props.debug) {
+      console.log({ chief: this.props.debug, uiComplete: name, countInState: countIn, countTargets: this.countTargets});  
+    }
+    
     if(countIn === this.countTargets) {
       this.props.onComplete(this.props.state);
     }
@@ -74,7 +78,11 @@ class Chief extends React.Component {
     ) {
       this.state.chief.go(nextProps.state, nextProps.onComplete);
 
-      this.targetsIn = []
+      // if we're not trying to go to the same same state we should reset counts
+      if(this.state.propsState !== nextProps.state) {
+        this.targetsIn = [];  
+      }
+  
       this.countTargets = Object.keys(nextProps.states[nextProps.state]).length;
 
       this.setState({
@@ -89,11 +97,12 @@ class Chief extends React.Component {
 
     return React.Children.toArray(this.props.children).map((child, i) => {
 
+      var f1Target = child.props[ TARGET_PROP_NAME ];
+
       this.targetHandlers.push(() => {
-        this.handleTargetInState(i);
+        this.handleTargetInState(i, f1Target);
       });
 
-      var f1Target = child.props[ TARGET_PROP_NAME ];
       var childProps = merge(
         {},
         child.props,
@@ -119,9 +128,9 @@ class Chief extends React.Component {
     this.targetHandlers = [];
   
     for(var i in chiefState) {
-      this.targetHandlers.push(function(idx) {
-        this.handleTargetInState(idx);
-      }.bind(this, this.targetHandlers.length));
+      this.targetHandlers.push(function(idx, name) {
+        this.handleTargetInState(idx, name);
+      }.bind(this, this.targetHandlers.length, i));
 
       state[ i ] = {
         state: chiefState[ i ],
