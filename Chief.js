@@ -10,6 +10,7 @@ class Chief extends React.Component {
     super(props);
 
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.targetHandlers = [];
     this.handleTargetInState = this.handleTargetInState.bind(this);
 
     this.state = {};
@@ -41,10 +42,17 @@ class Chief extends React.Component {
     });  
   }
 
-  handleTargetInState() {
-    this.countTargetsIn++;
+  handleTargetInState(idx) {
+    
+    var countIn;
 
-    if(this.countTargetsIn === this.countTargets) {
+    this.targetsIn[ idx ] = true;
+
+    countIn = this.targetsIn.reduce(function(count, value) {
+      return value ? count + 1 : count;
+    }, 0);
+
+    if(countIn === this.countTargets) {
       this.props.onComplete(this.props.state);
     }
   }
@@ -67,7 +75,7 @@ class Chief extends React.Component {
     ) {
       this.state.chief.go(nextProps.state, nextProps.onComplete);
 
-      this.countTargetsIn = 0;
+      this.targetsIn = []
       this.countTargets = Object.keys(nextProps.states[nextProps.state]).length;
 
       this.setState({
@@ -78,7 +86,11 @@ class Chief extends React.Component {
   }
 
   getChildrenWithTargetName(chiefState) {
-    return React.Children.map(this.props.children, (child) => {
+    return React.Children.map(this.props.children, (child, i) => {
+
+      this.targetHandlers.push(() => {
+        this.handleTargetInState(i);
+      });
 
       var f1Target = child.props[ TARGET_PROP_NAME ];
       var childProps = merge(
@@ -86,7 +98,7 @@ class Chief extends React.Component {
         child.props,
         {
           state: chiefState[ f1Target ],
-          onComplete: this.handleTargetInState
+          onComplete: this.targetHandlers[ i ]
         }
       );
 
@@ -103,8 +115,12 @@ class Chief extends React.Component {
 
   getChildrenFromFunction(chiefState) {
     var state = {};
-
+  
     for(var i in chiefState) {
+      this.targetHandlers.push(function(idx) {
+        this.handleTargetInState(idx);
+      }.bind(this, this.targetHandlers.length));
+
       state[ i ] = {
         state: chiefState[ i ],
         onComplete: this.handleTargetInState
