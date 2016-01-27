@@ -10,7 +10,6 @@ class Chief extends React.Component {
     super(props);
 
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.targetHandlers = [];
     this.handleTargetInState = this.handleTargetInState.bind(this);
 
     this.state = {};
@@ -47,7 +46,7 @@ class Chief extends React.Component {
     var countIn;
 
     this.targetsIn[ idx ] = true;
-
+  
     countIn = this.targetsIn.reduce(function(count, value) {
       return value ? count + 1 : count;
     }, 0);
@@ -86,7 +85,9 @@ class Chief extends React.Component {
   }
 
   getChildrenWithTargetName(chiefState) {
-    return React.Children.map(this.props.children, (child, i) => {
+    this.targetHandlers = [];
+
+    return React.Children.toArray(this.props.children).map((child, i) => {
 
       this.targetHandlers.push(() => {
         this.handleTargetInState(i);
@@ -115,6 +116,7 @@ class Chief extends React.Component {
 
   getChildrenFromFunction(chiefState) {
     var state = {};
+    this.targetHandlers = [];
   
     for(var i in chiefState) {
       this.targetHandlers.push(function(idx) {
@@ -123,7 +125,7 @@ class Chief extends React.Component {
 
       state[ i ] = {
         state: chiefState[ i ],
-        onComplete: this.handleTargetInState
+        onComplete: this.targetHandlers[ this.targetHandlers.length - 1 ]
       };
     }
 
