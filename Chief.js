@@ -11,6 +11,7 @@ class Chief extends React.Component {
 
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleTargetInState = this.handleTargetInState.bind(this);
+    this.targetNames = [];
 
     this.state = {};
     this.chiefTargets = {};
@@ -42,21 +43,31 @@ class Chief extends React.Component {
   }
 
   handleTargetInState(idx, name) {
-    
-    var countIn;
+    if(this.targetsIn) {
+      var countComplete;
 
-    this.targetsIn[ idx ] = true;
-  
-    countIn = this.targetsIn.reduce(function(count, value) {
-      return value ? count + 1 : count;
-    }, 0);
-
-    if(this.props.debug) {
-      console.log({ chief: this.props.debug, uiComplete: name, countInState: countIn, countTargets: this.countTargets});  
-    }
+      this.targetsIn[ idx ] = true;
     
-    if(countIn === this.countTargets) {
-      this.props.onComplete(this.props.state);
+      countComplete = this.targetsIn.reduce(function(count, value) {
+        return value ? count + 1 : count;
+      }, 0);
+
+      if(this.props.debug) {
+        console.log({ 
+          chief: this.props.debug, 
+          uiComplete: name,
+          countComplete: countComplete,
+          itemsComplete: this.targetNames.reduce((rVal, name, i) => {
+            rVal[ name ] = this.targetsIn[ i ];
+
+            return rVal;
+          }, {})
+        });  
+      }
+      
+      if(countComplete === this.countTargets) {
+        this.props.onComplete(this.props.state);
+      }
     }
   }
 
@@ -94,10 +105,13 @@ class Chief extends React.Component {
 
   getChildrenWithTargetName(chiefState) {
     this.targetHandlers = [];
+    this.targetNames = [];
 
     return React.Children.toArray(this.props.children).map((child, i) => {
 
       var f1Target = child.props[ TARGET_PROP_NAME ];
+
+      this.targetNames[ i ] = f1Target;
 
       this.targetHandlers.push(() => {
         this.handleTargetInState(i, f1Target);
@@ -126,8 +140,11 @@ class Chief extends React.Component {
   getChildrenFromFunction(chiefState) {
     var state = {};
     this.targetHandlers = [];
+    this.targetNames = [];
   
     for(var i in chiefState) {
+      this.targetNames[ this.targetHandlers.length ] = i;
+
       this.targetHandlers.push(function(idx, name) {
         this.handleTargetInState(idx, name);
       }.bind(this, this.targetHandlers.length, i));
