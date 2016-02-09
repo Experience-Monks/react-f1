@@ -66,7 +66,7 @@ class Chief extends React.Component {
       }
       
       if(countComplete === this.countTargets) {
-        this.props.onComplete(this.props.state);
+        this.props.onComplete(this.props.go);
       }
     }
   }
@@ -78,26 +78,28 @@ class Chief extends React.Component {
       chief: this.state.chief
     });
 
-    this.state.chief.init(this.props.state);
+    this.state.chief.init(this.props.go);
   }
 
   componentWillReceiveProps(nextProps) {
 
+    var goState = nextProps.go;
+
     if(
-      nextProps.state &&
-      (this.state.propsState !== nextProps.state || this.state.propsOnComplete !== nextProps.onComplete)
+      goState &&
+      (this.state.propsState !== goState || this.state.propsOnComplete !== nextProps.onComplete)
     ) {
-      this.state.chief.go(nextProps.state, nextProps.onComplete);
+      this.state.chief.go(goState, nextProps.onComplete);
 
       // if we're not trying to go to the same same state we should reset counts
-      if(this.state.propsState !== nextProps.state) {
+      if(this.state.propsState !== goState) {
         this.targetsIn = [];  
       }
   
-      this.countTargets = Object.keys(nextProps.states[nextProps.state]).length;
+      this.countTargets = Object.keys(nextProps.states[goState]).length;
 
       this.setState({
-        propsState: nextProps.state,
+        propsState: goState,
         propsOnComplete: nextProps.onComplete
       })
     }

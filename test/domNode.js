@@ -23,7 +23,7 @@ function render(state) {
 
   ReactDom.render(
     <ReactF1
-      state={state}
+      go={state}
       states={{
         out: {
           item1: {

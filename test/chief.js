@@ -43,7 +43,7 @@ function render(state, onComplete) {
 
   ReactDom.render(
     <Chief
-      state={state}
+      go={state}
       states={states}
       transitions={transitions}
       onComplete={onComplete}

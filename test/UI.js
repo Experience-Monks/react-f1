@@ -152,7 +152,7 @@ class UI extends React.Component {
     return <F1React 
       {...definition}
       onF1={this.props.onF1}
-      state={this.state.uiState} 
+      go={this.state.uiState} 
       onComplete={this.state.onComplete}
       onMouseOver={this.handleMouseOver} 
       onMouseOut={this.handleMouseOut}

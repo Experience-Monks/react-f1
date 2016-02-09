@@ -25,7 +25,7 @@ class ReactF1 extends React.Component {
   }
 
   initFromProps(props) {
-    if(this.hasMounted && props.state && props.states && props.transitions) {
+    if(this.hasMounted && props.go && props.states && props.transitions) {
 
       var el = ReactDom.findDOMNode(this);
       var f1 = this.f1 = f1DOM({
@@ -39,11 +39,11 @@ class ReactF1 extends React.Component {
       this.updateListenersFromProps(props);
 
       this.setState({
-        f1State: props.state,
+        f1State: props.go,
         states: props.states
       });
 
-      f1.init(props.state);
+      f1.init(props.go);
     }
   }
 
@@ -65,12 +65,12 @@ class ReactF1 extends React.Component {
       this.f1.update();
     }
 
-    if(props.state && props.state !== this.state.f1State) {
+    if(props.go && props.go !== this.state.f1State) {
       if(this.f1) {
-        this.f1.go(props.state, props.onComplete);
+        this.f1.go(props.go, props.onComplete);
 
         this.setState({
-          f1State: props.state
+          f1State: props.go
         });
       }
     }

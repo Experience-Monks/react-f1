@@ -21,7 +21,7 @@
     "array-union": "^1.0.1",
     "deep-extend": "^0.4.0",
     "f1": "^7.0.1",
-    "f1-dom": "^7.0.0",
+    "f1-dom": "^7.1.3",
     "gl-mat4": "^1.1.4"
   },
   "peerDependencies": {
