@@ -9,7 +9,7 @@ React UI animation components built on top of [`f1-dom`](https://www.npmjs.com/p
 - Create complex animations with custom delays, durations, eases
 - Animate individual properties (scale, opacity, etc.) independently of each other eg. delay the opacity animation by 0.5 seconds but scale immediately
 - True separation of concerns. Animations defined outside of application implementation (less Spaghetti code)
-- Habe absolute control animations from page transitions down to individual ui components
+- Absolute control over animations from page transitions down to individual ui components
 - Uses path finding to figure out how to animate from one state to another. For instance how to animate from a button from an out state to a pressed state (write less logic for complex animations)
 
 
@@ -31,6 +31,29 @@ var Chief = require('react-f1/Chief');
 ## Usage
 
 [![NPM](https://nodei.co/npm/react-f1.png)](https://www.npmjs.com/package/react-f1)
+
+#### Install
+```bash
+$ npm i react-f1 react react-dom --save
+```
+
+There is an example folder distributed with this module. It contains two examples. One being a small example of how to use `ReactF1` and the other on how to use `Chief`.
+
+#### Example `ReactF1`
+
+To run the `ReactF1` example:
+```bash
+$ npm run example-f1
+```
+
+Below is a description of all example files:
+
+**example/f1/ExampleButton.js**: Example Button Component built using ReactF1.
+
+**example/f1/getStates.js**: a function which returns an Object which defines what the button should look like in each state.
+
+**example/f1/getTransitions.js**: a function which returns an Array which defines how to animate between states.
+
 
 ## License
 
