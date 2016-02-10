@@ -27,7 +27,8 @@ class ExampleButton extends React.Component {
         data-f1="buttonBG"
         style={{
           backgroundColor: '#00CAFE',
-          fontFamily: 'Georgia, serif'
+          fontFamily: 'Georgia, serif',
+          cursor: 'pointer'
         }}
         onMouseOver={this.props.onMouseOver}
         onMouseOut={this.props.onMouseOut}
