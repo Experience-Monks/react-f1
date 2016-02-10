@@ -10,7 +10,9 @@
     "url": "https://github.com/mikkoh"
   },
   "scripts": {
-    "browser": "budo test/index.js --live --open",
+    "start": "npm run browser",
+    "test": "npm run node",
+    "browser": "npm run dev-browser",
     "node": "babel-node test/index.js | faucet",
     "dev-browser": "budo test/index.js --live --open",
     "dev-node": "nodemon --exec \"babel-node test/index.js | faucet\""
