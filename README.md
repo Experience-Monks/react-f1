@@ -41,7 +41,7 @@ There is an example folder distributed with this module. It contains two example
 
 #### Example `ReactF1`
 
-![Example ReactF1](./example/react-f1.gif)
+![Example ReactF1](https://media.githubusercontent.com/media/Jam3/react-f1/dev/example/react-f1.gif)
 
 To run the `ReactF1` example:
 ```bash
