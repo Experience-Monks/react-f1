@@ -110,10 +110,14 @@ class Chief extends React.Component {
   }
 
   getChildrenWithTargetName(chiefState) {
-    console.warn(
-      'Using data-f1 to define targets with chief is deprecated. ' +
-      'Pass in a function instead as its child.'
-    );
+    if(!this.showedDepWarning) {
+      this.showedDepWarning = true;
+      
+      console.warn(
+        'Using data-f1 to define targets with chief is deprecated. ' +
+        'Pass in a function instead as its child.'
+      );
+    }
 
     this.targetHandlers = [];
     this.targetNames = [];
