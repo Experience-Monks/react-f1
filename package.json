@@ -1,7 +1,7 @@
 {
   "name": "react-f1",
   "version": "4.2.4",
-  "description": "This is an implementation of f1 parsers for react",
+  "description": "React UI animation components built on top of f1-dom and f1.",
   "main": "index.js",
   "license": "MIT",
   "author": {
@@ -45,7 +45,7 @@
     "tape": "^4.4.0"
   },
   "keywords": [
-    "react,f1,animation"
+    "react,f1,animation,ui,jam3,dom,react-dom"
   ],
   "repository": {
     "type": "git",
