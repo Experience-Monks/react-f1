@@ -39,9 +39,6 @@ module.exports = function(t) {
       function() { 
         return { 
           go: 'idle', states: getState('idle', 400, 333), transitions: transitions,
-          style: {
-            backgroundColor: '#00CAFE'
-          },
           onComplete: function(callback, state, stateName) {
             var el = domSelect('[data-f1]');
 
@@ -57,9 +54,6 @@ module.exports = function(t) {
       function() {
         return { 
           go: 'out', states: states, transitions: transitions,
-          style: {
-            backgroundColor: '#00CAFE'
-          },
           onComplete: function(callback, state, stateName) {
             var el = domSelect('[data-f1]');
 
@@ -76,10 +70,7 @@ module.exports = function(t) {
       // the following is to test setting states when we're already on that state and not animating
       function() {
         return { 
-          go: 'out', states: getState('out', 33, 44), transitions: transitions,
-          style: {
-            backgroundColor: '#00CAFE'
-          }
+          go: 'out', states: getState('out', 33, 44), transitions: transitions
         };
       }
     ],
@@ -116,9 +107,13 @@ function render(settings, callback) {
 
   var component = <ReactF1
     {...settings}
-    style={undefined}
   >
-    <div data-f1="item" style={settings.style}>Test</div>
+    <div 
+      data-f1="item" 
+      style={{
+        backgroundColor: '#F00'
+      }}
+    >Test</div>
   </ReactF1>;
 
   // TestUtils.renderIntoDocument(component);
