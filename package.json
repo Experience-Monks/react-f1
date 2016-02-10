@@ -10,7 +10,10 @@
     "url": "https://github.com/mikkoh"
   },
   "scripts": {
-    "test": "node test.js"
+    "browser": "budo test/index.js --live --open",
+    "node": "babel-node test/index.js",
+    "dev-browser": "budo test/index.js --live --open",
+    "dev-node": "nodemon --exec babel-node -- test/index.js"
   },
   "browserify": {
     "transform": [
@@ -24,13 +27,20 @@
     "gl-mat4": "^1.1.4"
   },
   "peerDependencies": {
-    "react": "^0.14.3",
-    "react-dom": "^0.14.0"
+    "react": "^0.14.7",
+    "react-dom": "^0.14.3"
   },
   "devDependencies": {
-    "babelify": "^6.4.0",
+    "async": "^1.5.2",
+    "babel-cli": "^6.5.1",
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.2.0",
     "budo": "^5.1.5",
-    "js-dom": "0.0.1"
+    "dom-select": "^1.1.0",
+    "jsdom": "^8.0.2",
+    "nodemon": "^1.8.1",
+    "react-addons-test-utils": "^0.14.7",
+    "tape": "^4.4.0"
   },
   "keywords": [
     "react,f1,animation"

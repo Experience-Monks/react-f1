@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var ReactDom = require('react-dom');
 var f1DOM = require('f1-dom');
