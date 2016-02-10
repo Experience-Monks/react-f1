@@ -8,9 +8,9 @@ React UI animation components built on top of [`f1-dom`](https://www.npmjs.com/p
 
 - Create complex animations with custom delays, durations, eases
 - Animate individual properties (scale, opacity, etc.) independently of each other eg. delay the opacity animation by 0.5 seconds but scale immediately
-- Animations defined outside of application implementation (less Spaghetti code)
-- Control animations from page transitions down to ui components
-- Uses path finding to figure out how to animate from State A to State C (write less logic for complex animations)
+- True separation of concerns. Animations defined outside of application implementation (less Spaghetti code)
+- Habe absolute control animations from page transitions down to individual ui components
+- Uses path finding to figure out how to animate from one state to another. For instance how to animate from a button from an out state to a pressed state (write less logic for complex animations)
 
 
 #### Components
