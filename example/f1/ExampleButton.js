@@ -24,7 +24,7 @@ class ExampleButton extends React.Component {
         // data-f1 indicates this div is a target which should be animated
         // getStates() - will return what exampleButton looks like in each
         // state.
-        data-f1="exampleButton"
+        data-f1="buttonBG"
         style={{
           backgroundColor: '#00CAFE',
           fontFamily: 'Georgia, serif'
@@ -33,6 +33,7 @@ class ExampleButton extends React.Component {
         onMouseOut={this.props.onMouseOut}
       >
         <div
+          data-f1="buttonText"
           style={{
             position: 'absolute',
             top: '50%',
@@ -40,7 +41,7 @@ class ExampleButton extends React.Component {
             transform: 'translate(-50%, -50%)'
           }}
         >
-          example
+          react-f1
         </div>
       </div>
     </ReactF1>;

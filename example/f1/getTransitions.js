@@ -15,7 +15,7 @@ module.exports = function getTransitions() {
       // there's no need to define such a crazy animation
       // but sometimes designers like to get craaaazy
       animation: {
-        exampleButton: {
+        buttonBG: {
           style: {
             translate: {
               duration: 0.15,
