@@ -42,7 +42,6 @@
     "faucet": "0.0.1",
     "jsdom": "^8.0.2",
     "nodemon": "^1.8.1",
-    "react-addons-test-utils": "^0.14.7",
     "tape": "^4.4.0"
   },
   "keywords": [
