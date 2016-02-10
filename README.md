@@ -39,7 +39,7 @@ $ npm i react-f1 react react-dom --save
 
 There is an example folder distributed with this module. It contains two examples. One being a small example of how to use `ReactF1` and the other on how to use `Chief`.
 
-#### Example `ReactF1`
+#### Example ReactF1
 
 ![Example ReactF1](https://media.githubusercontent.com/media/Jam3/react-f1/dev/example/react-f1.gif)
 
