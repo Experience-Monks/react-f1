@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var f1Chief = require('f1/chief');
 var merge = require('deep-extend');
@@ -40,6 +42,8 @@ class Chief extends React.Component {
     this.setState({
       chiefState: state
     });  
+
+    this.props.onUpdate(state, this.props.go);
   }
 
   handleTargetInState(idx, name) {
@@ -66,7 +70,7 @@ class Chief extends React.Component {
       }
       
       if(countComplete === this.countTargets) {
-        this.props.onComplete(this.props.go);
+        this.props.onComplete(this.props.states[ this.props.go ], this.props.go);
       }
     }
   }
@@ -106,6 +110,11 @@ class Chief extends React.Component {
   }
 
   getChildrenWithTargetName(chiefState) {
+    console.warn(
+      'Using data-f1 to define targets with chief is deprecated. ' +
+      'Pass in a function instead as its child.'
+    );
+
     this.targetHandlers = [];
     this.targetNames = [];
 
@@ -123,7 +132,7 @@ class Chief extends React.Component {
         {},
         child.props,
         {
-          state: chiefState[ f1Target ],
+          go: chiefState[ f1Target ],
           onComplete: this.targetHandlers[ i ]
         }
       );
@@ -152,7 +161,7 @@ class Chief extends React.Component {
       }.bind(this, this.targetHandlers.length, i));
 
       state[ i ] = {
-        state: chiefState[ i ],
+        go: chiefState[ i ],
         onComplete: this.targetHandlers[ this.targetHandlers.length - 1 ]
       };
     }
@@ -185,6 +194,7 @@ class Chief extends React.Component {
 };
 
 Chief.defaultProps = {
+  onUpdate: function() {},
   onComplete: function() {}
 };
 
