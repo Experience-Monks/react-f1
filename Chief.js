@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var f1Chief = require('f1/chief');
 var merge = require('deep-extend');
@@ -40,6 +42,8 @@ class Chief extends React.Component {
     this.setState({
       chiefState: state
     });  
+
+    this.props.onUpdate(state, this.props.go);
   }
 
   handleTargetInState(idx, name) {
@@ -66,7 +70,7 @@ class Chief extends React.Component {
       }
       
       if(countComplete === this.countTargets) {
-        this.props.onComplete(this.props.state);
+        this.props.onComplete(this.props.states[ this.props.go ], this.props.go);
       }
     }
   }
@@ -78,32 +82,43 @@ class Chief extends React.Component {
       chief: this.state.chief
     });
 
-    this.state.chief.init(this.props.state);
+    this.state.chief.init(this.props.go);
   }
 
   componentWillReceiveProps(nextProps) {
 
+    var goState = nextProps.go;
+
     if(
-      nextProps.state &&
-      (this.state.propsState !== nextProps.state || this.state.propsOnComplete !== nextProps.onComplete)
+      goState &&
+      (this.state.propsState !== goState || this.state.propsOnComplete !== nextProps.onComplete)
     ) {
-      this.state.chief.go(nextProps.state, nextProps.onComplete);
+      this.state.chief.go(goState, nextProps.onComplete);
 
       // if we're not trying to go to the same same state we should reset counts
-      if(this.state.propsState !== nextProps.state) {
+      if(this.state.propsState !== goState) {
         this.targetsIn = [];  
       }
   
-      this.countTargets = Object.keys(nextProps.states[nextProps.state]).length;
+      this.countTargets = Object.keys(nextProps.states[goState]).length;
 
       this.setState({
-        propsState: nextProps.state,
+        propsState: goState,
         propsOnComplete: nextProps.onComplete
       })
     }
   }
 
   getChildrenWithTargetName(chiefState) {
+    if(!this.showedDepWarning) {
+      this.showedDepWarning = true;
+      
+      console.warn(
+        'Using data-f1 to define targets with chief is deprecated. ' +
+        'Pass in a function instead as its child.'
+      );
+    }
+
     this.targetHandlers = [];
     this.targetNames = [];
 
@@ -121,7 +136,7 @@ class Chief extends React.Component {
         {},
         child.props,
         {
-          state: chiefState[ f1Target ],
+          go: chiefState[ f1Target ],
           onComplete: this.targetHandlers[ i ]
         }
       );
@@ -150,7 +165,7 @@ class Chief extends React.Component {
       }.bind(this, this.targetHandlers.length, i));
 
       state[ i ] = {
-        state: chiefState[ i ],
+        go: chiefState[ i ],
         onComplete: this.targetHandlers[ this.targetHandlers.length - 1 ]
       };
     }
@@ -183,6 +198,7 @@ class Chief extends React.Component {
 };
 
 Chief.defaultProps = {
+  onUpdate: function() {},
   onComplete: function() {}
 };
 
