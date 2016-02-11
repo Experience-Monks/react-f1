@@ -13,6 +13,14 @@ React UI animation components built on top of [`f1-dom`](https://www.npmjs.com/p
 - Absolute control over animations from page transitions down to individual ui components
 - Uses path finding to figure out how to animate from one state to another. For instance how to animate from a button from an out state to a pressed state (write less logic for complex animations)
 
+### Table Of Contents
+- [Usage](#usage)
+- [Examples](#examples)
+  + [Example ReactF1](#example-reactf1)
+  + [Example Chief](#example-chief)
+- [Documentation](#documentation)
+  + [ReactF1](#const-reactf1--requirereact-f1)
+  + [Chief](#const-chief--requirereact-f1chief)
 
 ### Components
 
