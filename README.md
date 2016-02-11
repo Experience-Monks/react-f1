@@ -74,6 +74,8 @@ The above example uses two components `SelectIndicator` (small line that moves u
 $ npm run example-chief
 ```
 
+**example/chief/Menu/:** This folder contains all code including states and transitions used by `Chief` to create a Menu. (this is the menu in the above gif)
+
 **example/chief/FancyButton/:** This folder contains all code including states and transitions used by the FancyButton. (buttons on the right side of the menu in the above gif)
 
 **example/chief/SelectIndicator/:** This folder contains all code including states and transitions used by the SelectIndicator. (small line that moves up and down in the above gif) 

@@ -8,6 +8,10 @@ var transitions = require('./transitions');
 var FancyButton = require('../FancyButton');
 var SelectIndicator = require('../SelectIndicator');
 
+/****************************************************************************/
+/***** You should probably just to the `render` function because that's *****/
+/***********************w here all the MAGIC happens ************************/
+/****************************************************************************/
 class Menu extends React.Component {
 
   constructor(props) {
@@ -42,12 +46,21 @@ class Menu extends React.Component {
 
   render() {
     return <Chief
+      // state which we should animate to
       go={this.state.go}
+
+      // states for Chief define what state all ui should be in
       states={states}
+
+      // transitions can define delays for triggering ui states
       transitions={transitions}
     >
     {
+      // with React it's very hard to manipulate deeply nested (grand child) 
+      // component's properties. 
+      // This is why you need to pass in a function that will accept an Object
       (states) => {
+
         var buttonSize = {
           width: 200,
           height: 50
@@ -57,12 +70,14 @@ class Menu extends React.Component {
 
         return <div>
           <SelectIndicator
+            // pass in `go` and `onComplete` which are specific to indicator
             {...states.indicator}
             style={{
               position: 'relative'
             }}
           />
           <FancyButton
+            // pass in `go` and `onComplete` which are specific to button1
             {...states.button1}
             {...buttonSize}
             onClick={this.handleClick.bind(this, 'selected1')}
@@ -72,6 +87,7 @@ class Menu extends React.Component {
             }}
           />
           <FancyButton
+            // pass in `go` and `onComplete` which are specific to button2
             {...states.button2}
             {...buttonSize}
             onClick={this.handleClick.bind(this, 'selected2')}
@@ -82,6 +98,7 @@ class Menu extends React.Component {
             }}
           />
           <FancyButton
+            // pass in `go` and `onComplete` which are specific to button3
             {...states.button3}
             {...buttonSize}
             onClick={this.handleClick.bind(this, 'selected3')}
