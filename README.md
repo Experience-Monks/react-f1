@@ -39,22 +39,26 @@ $ npm i react-f1 react react-dom --save
 
 There is an example folder distributed with this module. It contains two examples. One being a small example of how to use `ReactF1` and the other on how to use `Chief`.
 
+Details on how to run these examples are noted below. Once running in your browser you can simply edit the js files listed before and see changes immediately in browser.
+
 #### Example ReactF1
 
 ![Example ReactF1](https://media.githubusercontent.com/media/Jam3/react-f1/dev/example/react-f1.gif)
 
-To run the `ReactF1` example:
+This example builds and renders a small animated button that you can see in use above.
+
+**To run the ReactF1 example:**
 ```bash
 $ npm run example-f1
 ```
 
-Below is a description of all example files:
+Below is a description of all example files that you might want to edit. All of these files have comments which explain each piece of the application:
 
-**example/f1/ExampleButton.js**: Example Button Component built using ReactF1.
+**example/f1/ExampleButton.js:** Example Button Component built using ReactF1.
 
-**example/f1/getStates.js**: a function which returns an Object which defines what the button should look like in each state.
+**example/f1/getStates.js:** a function which returns an Object which defines what the button should look like in each state.
 
-**example/f1/getTransitions.js**: a function which returns an Array which defines how to animate between states.
+**example/f1/getTransitions.js:** a function which returns an Array which defines how to animate between states.
 
 
 ## License
