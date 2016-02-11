@@ -94,7 +94,7 @@ The following describes on a high level how ReactF1 and Chief components are use
 
 ### `const ReactF1 = require('react-f1')`
 
-```html
+```jsx
 <ReactF1
   // state here is a String
   // it is the state that this ui component should
@@ -238,7 +238,7 @@ var transitions = [
 ```
 ### `const Chief = require('react-f1/Chief')`
 
-```html
+```jsx
 // Chief from an API perspective looks very much the way that ReactF1 does
 <Chief
   // state which we should animate to
