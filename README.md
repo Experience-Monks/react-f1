@@ -41,7 +41,7 @@ There is an example folder distributed with this module. It contains two example
 
 Details on how to run these examples are noted below. Once running in your browser you can simply edit the js files listed before and see changes immediately in browser.
 
-#### Example ReactF1
+## Example ReactF1
 
 ![Example ReactF1](https://media.githubusercontent.com/media/Jam3/react-f1/dev/example/react-f1.gif)
 
@@ -60,6 +60,20 @@ Below is a description of all example files that you might want to edit. All of 
 
 **example/f1/getTransitions.js:** a function which returns an Array which defines how to animate between states.
 
+## Example Chief
+
+![Example Chief](https://media.githubusercontent.com/media/Jam3/react-f1/dev/example/react-f1-chief.gif)
+
+The above example uses two components `SelectIndicator` (small line that moves up and down on the left) and `FancyButton` which is the buttons on the right. States and logic for selected buttons are handled by `Chief`.
+
+**To run the Chief example:**
+```bash
+$ npm run example-chief
+```
+
+**example/chief/FancyButton/:** This folder contains all code including states and transitions used by the FancyButton. (buttons on the right side of the menu in the above gif)
+
+**example/chief/SelectIndicator/:** This folder contains all code including states and transitions used by the SelectIndicator. (small line that moves up and down in the above gif) 
 
 ## License
 
