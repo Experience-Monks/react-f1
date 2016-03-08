@@ -1,6 +1,6 @@
 {
   "name": "react-f1",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "React UI animation components built on top of f1-dom and f1.",
   "main": "index.js",
   "license": "MIT",
