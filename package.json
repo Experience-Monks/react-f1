@@ -12,6 +12,7 @@
   "scripts": {
     "start": "npm run browser",
     "test": "npm run node",
+    "test-browser": "npm run dev-browser",
     "example-f1": "budo example/f1/index.js --live --open",
     "example-chief": "budo example/chief/index.js --live --open",
     "f1-example": "npm run example-f1",
@@ -47,7 +48,7 @@
     "faucet": "0.0.1",
     "jsdom": "^8.0.2",
     "nodemon": "^1.8.1",
-    "tape": "^4.4.0"
+    "tape": "^4.5.1"
   },
   "keywords": [
     "react,f1,animation,ui,jam3,dom,react-dom"
