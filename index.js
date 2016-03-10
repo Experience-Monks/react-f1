@@ -13,9 +13,7 @@ class ReactF1 extends React.Component {
     this.hasMounted = false;
     this.f1 = null;
 
-    this.state = {
-      f1State: null
-    };
+    this.state = {};
   }
 
   setupFromProps(props) {
@@ -41,7 +39,6 @@ class ReactF1 extends React.Component {
       this.updateListenersFromProps(props);
 
       this.setState({
-        f1State: props.go,
         states: props.states
       });
 
@@ -70,10 +67,6 @@ class ReactF1 extends React.Component {
     if(props.go) {
       if(this.f1) {
         this.f1.go(props.go, props.onComplete);
-
-        this.setState({
-          f1State: props.go
-        });
       }
     }
 
