@@ -14,6 +14,11 @@ var states = {
   idle: {
     item1: 'idle',
     item2: 'idle'
+  },
+
+  idle2: {
+    item1: 'idle',
+    item2: 'out'
   }
 };
 
@@ -23,7 +28,10 @@ var transitions = [
       item1: {
         delay: 0.5
       }
-    } 
+    }
+  },
+  {
+    from: 'idle', to: 'idle2', bi: true
   }
 ];
 
@@ -57,6 +65,20 @@ module.exports = function(t) {
           callback(null);
         }
       },
+      {
+        go: 'idle2', states: states, transitions: transitions,
+        style: {
+          backgroundColor: '#00FFFF'
+        },
+        onComplete: function(callback, state, stateName) {
+
+          t.deepEqual(stateName, 'idle2', 'idle2: state name was correct');
+          t.deepEqual(state, states.idle2, 'idle2: state was correct for complete');
+          statesVisited.push(stateName);
+
+          callback(null);
+        }
+      },
       { 
         go: 'out', states: states, transitions: transitions,
         style: {
@@ -74,7 +96,7 @@ module.exports = function(t) {
     ],
     render,
     function() {
-      t.deepEqual(statesVisited, ['idle', 'out'], 'visited all states');
+      t.deepEqual(statesVisited, ['idle', 'idle2', 'out'], 'visited all states');
       t.ok(updateItem1WasDelayed, 'item 1 was delayed from item 2');
       t.ok(updateItemsWereInSameState, 'final call to update had item1 and item2 in idle');
 

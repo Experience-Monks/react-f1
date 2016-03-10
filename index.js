@@ -67,7 +67,7 @@ class ReactF1 extends React.Component {
       this.f1.update();
     }
 
-    if(props.go && props.go !== this.state.f1State) {
+    if(props.go) {
       if(this.f1) {
         this.f1.go(props.go, props.onComplete);
 

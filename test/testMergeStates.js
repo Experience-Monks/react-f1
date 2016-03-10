@@ -60,9 +60,7 @@ module.exports = function(t) {
             t.equal(el.style.width, '100px', 'unchanged state width is correct');
             t.equal(el.style.height, '50px', 'unchanged state height is correct');
 
-            process.nextTick(function() {
-              callback(null);
-            });
+            callback(null);
           }
         };
       },
@@ -120,6 +118,8 @@ function render(settings, callback) {
   ReactDom.render(component, this.container);
 
   if(!settings.onComplete) {
-    callback(null);
+    process.nextTick(function() {
+      callback(null);
+    });
   }
 }

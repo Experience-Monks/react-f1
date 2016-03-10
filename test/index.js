@@ -6,5 +6,5 @@ var test = require('tape');
 jsDomBoiler();
 
 test('test f1 via go', require('./testF1Go'));
-test('test chief via go', require('./testChiefGo'));
 test('test merging states', require('./testMergeStates'));
+test('test chief via go', require('./testChiefGo'));
