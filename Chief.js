@@ -5,8 +5,6 @@ var f1Chief = require('f1/chief');
 var merge = require('deep-extend');
 var chiefBridge = require('./lib/chiefBridge');
 
-const TARGET_PROP_NAME = 'data-f1';
-
 class Chief extends React.Component {
 
   constructor(props) {
@@ -80,15 +78,6 @@ class Chief extends React.Component {
     return targets;
   }
 
-  getChildrenWithTargetName(chiefState) {
-    console.warn(
-      'Using data-f1 to define targets with chief is deprecated. ' +
-      'Pass in a function instead as its child.'
-    );
-
-    // return children;
-  }
-
   getChildrenFromFunction(chiefState) {
     return this.props.children(chiefState);
   }
@@ -103,7 +92,7 @@ class Chief extends React.Component {
       if(typeof this.props.children === 'function') {
         children = this.getChildrenFromFunction(chiefState);
       } else {
-        children = this.getChildrenWithTargetName(chiefState);
+        throw new Error('props.children should be a function that accepts chief states');
       }
     } else {
       children = this.props.children;

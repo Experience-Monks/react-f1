@@ -73,9 +73,6 @@ Below is a description of all example files that you might want to edit. All of 
 
 ## Example Chief
 
-### CURRENTLY THERE IS A SERIOUS BUG WITH Chief PLEASE USE WITH CAUTION
-### DETAILS HERE: https://github.com/Jam3/react-f1/issues/9
-
 ![Example Chief](https://media.githubusercontent.com/media/Jam3/react-f1/dev/example/react-f1-chief.gif)
 
 The above example uses two components `SelectIndicator` (small line that moves up and down on the left) and `FancyButton` which is the buttons on the right. States and logic for selected buttons are handled by `Chief`.
