@@ -5,6 +5,6 @@ var test = require('tape');
 // react without the dom if we're not in the dom
 jsDomBoiler();
 
-test('test f1 via go', require('./testF1Go'));
+// test('test f1 via go', require('./testF1Go'));
 test('test chief via go', require('./testChiefGo'));
-test('test merging states', require('./testMergeStates'));
+// test('test merging states', require('./testMergeStates'));
