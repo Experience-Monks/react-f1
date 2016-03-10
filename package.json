@@ -14,6 +14,8 @@
     "test": "npm run node",
     "example-f1": "budo example/f1/index.js --live --open",
     "example-chief": "budo example/chief/index.js --live --open",
+    "f1-example": "npm run example-f1",
+    "chief-example": "npm run example-chief",
     "browser": "npm run dev-browser",
     "node": "babel-node test/index.js",
     "dev-browser": "budo test/index.js --live --open",
