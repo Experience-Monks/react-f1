@@ -2,7 +2,7 @@
   "name": "react-f1",
   "version": "6.0.0",
   "description": "React UI animation components built on top of f1-dom and f1.",
-  "main": "index.js",
+  "main": "bundle.js",
   "license": "MIT",
   "author": {
     "name": "Mikko Haapoja",
@@ -20,7 +20,8 @@
     "browser": "npm run dev-browser",
     "node": "babel-node test/index.js",
     "dev-browser": "budo test/index.js --live --open",
-    "dev-node": "nodemon --exec \"babel-node test/index.js | faucet\""
+    "dev-node": "nodemon --exec \"babel-node test/index.js | faucet\"",
+    "transpile": "babel index.js >> bundle.js"
   },
   "browserify": {
     "transform": [
@@ -39,7 +40,7 @@
   },
   "devDependencies": {
     "async": "^1.5.2",
-    "babel-cli": "^6.5.1",
+    "babel-cli": "^6.6.5",
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.2.0",
     "budo": "^5.1.5",
