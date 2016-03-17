@@ -1,5 +1,7 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var React = require('react');
 var ReactDom = require('react-dom');
 var f1DOM = require('f1-dom');
@@ -17,7 +19,7 @@ class ReactF1 extends React.Component {
   }
 
   setupFromProps(props) {
-    if(!this.f1) {
+    if (!this.f1) {
       this.initFromProps(props);
     } else {
       this.updateFromProps(props);
@@ -25,7 +27,7 @@ class ReactF1 extends React.Component {
   }
 
   initFromProps(props) {
-    if(this.hasMounted && props.go && props.states && props.transitions) {
+    if (this.hasMounted && props.go && props.states && props.transitions) {
 
       var el = ReactDom.findDOMNode(this);
       var f1 = this.f1 = f1DOM({
@@ -49,12 +51,9 @@ class ReactF1 extends React.Component {
   updateFromProps(props) {
     var states;
 
-    if(props.states) {
+    if (props.states) {
 
-      merge(
-        this.state.states,
-        props.states
-      );
+      merge(this.state.states, props.states);
 
       this.setState({
         states: this.state.states
@@ -64,8 +63,8 @@ class ReactF1 extends React.Component {
       this.f1.update();
     }
 
-    if(props.go) {
-      if(this.f1) {
+    if (props.go) {
+      if (this.f1) {
         this.f1.go(props.go, props.onComplete);
       }
     }
@@ -81,13 +80,13 @@ class ReactF1 extends React.Component {
   }
 
   handleUpdate() {
-    if(this.state.onUpdate) {
+    if (this.state.onUpdate) {
       this.state.onUpdate.apply(undefined, arguments);
     }
   }
 
   handleState() {
-    if(this.state.onState) {
+    if (this.state.onState) {
       this.state.onState.apply(undefined, arguments);
     }
   }
@@ -102,45 +101,42 @@ class ReactF1 extends React.Component {
   }
 
   componentWillUnmount() {
-    if(this.f1) {
+    if (this.f1) {
       this.f1.destroy();
-    } 
+    }
   }
 
   render() {
     var style = this.props.style;
 
-    if(!this.f1) {
-      style = merge(
-        {},
-        this.props.style,
-        {
-          display: 'none'
-        }
-      );  
+    if (!this.f1) {
+      style = merge({}, this.props.style, {
+        display: 'none'
+      });
     }
-    
-    return <div 
-      {...this.props}
-      style={style}
-    >
-      { this.props.children }
-    </div>;
+
+    return React.createElement(
+      'div',
+      _extends({}, this.props, {
+        style: style
+      }),
+      this.props.children
+    );
   }
 }
 
 function findTargets(children, targets) {
   targets = targets || {};
 
-  React.Children.forEach(children, function(child) {
-    if(child.props) {
+  React.Children.forEach(children, function (child) {
+    if (child.props) {
       var targetName = child.props['f1-target'];
 
-      if(targetName) {
-        targets[ targetName ] = child;
+      if (targetName) {
+        targets[targetName] = child;
       }
 
-      if(child.props.children) {
+      if (child.props.children) {
         findTargets(child.props.children, targets);
       }
     }

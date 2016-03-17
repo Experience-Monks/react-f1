@@ -3,7 +3,27 @@
 var React = require('react');
 var f1Chief = require('f1/chief');
 var merge = require('deep-extend');
-var chiefBridge = require('./lib/chiefBridge');
+var chiefBridge = function (target, onUpdate) {
+
+  target.state = null;
+  target.onComplete = null;
+
+  return {
+    isInitialized: false,
+
+    init: function (state) {
+      this.isInitialized = true;
+      target.go = state;
+      onUpdate();
+    },
+
+    go: function (state, onComplete) {
+      target.go = state;
+      target.onComplete = onComplete;
+      onUpdate();
+    }
+  };
+};
 
 class Chief extends React.Component {
 
@@ -22,14 +42,14 @@ class Chief extends React.Component {
       transitions: this.props.transitions,
       states: this.props.states,
       targets: this.getTargetsFromStates(this.props.states),
-      onUpdate: function() {
+      onUpdate: function () {
         this.props.onUpdate.apply(undefined, arguments);
       }.bind(this)
     });
   }
 
   componentWillUnMount() {
-    if(this.chief) {
+    if (this.chief) {
       this.chief.destroy();
     }
   }
@@ -42,10 +62,7 @@ class Chief extends React.Component {
 
     var goState = nextProps.go;
 
-    if(
-      goState &&
-      (this.state.propsState !== goState || this.state.propsOnComplete !== nextProps.onComplete)
-    ) {
+    if (goState && (this.state.propsState !== goState || this.state.propsOnComplete !== nextProps.onComplete)) {
       this.chief.go(goState, nextProps.onComplete);
 
       this.setState({
@@ -62,17 +79,17 @@ class Chief extends React.Component {
   }
 
   getTargetsFromStates(states) {
-    var stateName = Object.keys(states)[ 0 ];
+    var stateName = Object.keys(states)[0];
     var targets = {};
     var chiefState;
 
     this.chiefStates = {};
 
-    for(var targetName in states[ stateName ]) {
+    for (var targetName in states[stateName]) {
       chiefState = {};
-      this.chiefStates[ targetName ] = chiefState;
+      this.chiefStates[targetName] = chiefState;
 
-      targets[ targetName ] = chiefBridge(chiefState, this.handleUpdate);
+      targets[targetName] = chiefBridge(chiefState, this.handleUpdate);
     }
 
     return targets;
@@ -87,9 +104,9 @@ class Chief extends React.Component {
     var chiefState = this.state.chiefStates;
     var children;
 
-    if(chiefState) {
+    if (chiefState) {
 
-      if(typeof this.props.children === 'function') {
+      if (typeof this.props.children === 'function') {
         children = this.getChildrenFromFunction(chiefState);
       } else {
         throw new Error('props.children should be a function that accepts chief states');
@@ -98,17 +115,17 @@ class Chief extends React.Component {
       children = this.props.children;
     }
 
-    return <div
-      {...this.props}
-    >
-      { children }
-    </div>;
+    return React.createElement(
+      'div',
+      this.props,
+      children
+    );
   }
 };
 
 Chief.defaultProps = {
-  onUpdate: function() {}, // this.props.onUpdate(state, this.props.go);
-  onComplete: function() {}
+  onUpdate: function () {}, // this.props.onUpdate(state, this.props.go);
+  onComplete: function () {}
 };
 
 module.exports = Chief;
