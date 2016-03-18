@@ -4,3 +4,5 @@ node_modules
 .DS_Store
 bundle.js
 lib/
+/index.js
+/Chief.js
