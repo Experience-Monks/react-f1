@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 var domSelect = require('dom-select');
-var ReactF1 = require('./../src/');
+var ReactF1 = require(process.env.PATH_F1);
 var async = require('async');
 
 var container;

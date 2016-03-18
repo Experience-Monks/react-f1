@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 var domSelect = require('dom-select');
-var Chief = require('../src/Chief');
+var Chief = require(process.env.PATH_CHIEF);
 var UI = require('./UI');
 var async = require('async');
 

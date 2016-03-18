@@ -11,9 +11,11 @@
   },
   "scripts": {
     "start": "npm run browser",
-    "test": "npm run node",
+    "test": "npm run test-pretranspile; npm run test-transpile;",
+    "test-pretranspile": "PATH_F1='./../src/' PATH_CHIEF='../src/Chief' npm run node",
+    "test-transpile": "npm run compile; PATH_F1='../' PATH_CHIEF='../Chief' npm run node; npm run clean-compile",
     "prepublish": "npm run compile",
-    "postpublish": "rm index.js; rm Chief.js",
+    "postpublish": "npm run clean-compile",
     "test-browser": "npm run dev-browser",
     "example-f1": "budo example/f1/index.js --live --open",
     "example-chief": "budo example/chief/index.js --live --open",
@@ -23,7 +25,8 @@
     "node": "babel-node test/index.js",
     "dev-browser": "budo test/index.js --live --open",
     "dev-node": "nodemon --exec \"babel-node test/index.js\"",
-    "compile": "babel -d ./ src/"
+    "compile": "babel -d ./ src/",
+    "clean-compile": "rm index.js; rm Chief.js"
   },
   "browserify": {
     "transform": [
@@ -31,6 +34,7 @@
     ]
   },
   "dependencies": {
+    "babel-plugin-transform-inline-environment-variables": "^6.5.0",
     "deep-extend": "^0.4.0",
     "f1": "^7.0.2",
     "f1-dom": "^7.1.3",
