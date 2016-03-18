@@ -94,7 +94,7 @@ module.exports = function(t) {
         }
       }
     ],
-    render,
+    render.bind(render),
     function() {
       t.deepEqual(statesVisited, ['idle', 'idle2', 'out'], 'visited all states');
       t.ok(updateItem1WasDelayed, 'item 1 was delayed from item 2');

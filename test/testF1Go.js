@@ -77,7 +77,7 @@ module.exports = function(t) {
         }
       }
     ],
-    render,
+    render.bind(render),
     function() {
       t.deepEqual(statesVisited, ['idle', 'out'], 'visited all states');
 

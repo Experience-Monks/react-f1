@@ -72,7 +72,7 @@ module.exports = function(t) {
         };
       }
     ],
-    render,
+    render.bind(render),
     function() {
       var el = domSelect('[data-f1]');
 
