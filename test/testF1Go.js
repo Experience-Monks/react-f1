@@ -1,8 +1,10 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 var domSelect = require('dom-select');
-var ReactF1 = require('./..');
+var ReactF1 = require(process.env.PATH_F1);
 var async = require('async');
+
+var container;
 
 var states = {
   out: {
@@ -81,6 +83,8 @@ module.exports = function(t) {
     function() {
       t.deepEqual(statesVisited, ['idle', 'out'], 'visited all states');
 
+      container.parentNode.removeChild(container);
+
       t.end();
     }
   );
@@ -89,7 +93,7 @@ module.exports = function(t) {
 
 function render(settings, callback) {
 
-  this.container = this.container || document.body.appendChild(document.createElement('div'));
+  container = container || document.body.appendChild(document.createElement('div'));
   settings.onComplete = settings.onComplete && settings.onComplete.bind(null, callback);
 
   var component = <ReactF1
@@ -100,7 +104,7 @@ function render(settings, callback) {
   </ReactF1>;
 
   // TestUtils.renderIntoDocument(component);
-  ReactDom.render(component, this.container);
+  ReactDom.render(component, container);
 
   if(!settings.onComplete) {
     callback(null);

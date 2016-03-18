@@ -1,8 +1,10 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 var domSelect = require('dom-select');
-var ReactF1 = require('./..');
+var ReactF1 = require(process.env.PATH_F1);
 var async = require('async');
+
+var container;
 
 var states = {
   out: {
@@ -79,6 +81,8 @@ module.exports = function(t) {
       t.equal(el.style.width, '33px', 'width correct after set state on static state');
       t.equal(el.style.height, '44px', 'height correct after set state on static state');
 
+      container.parentNode.removeChild(container);
+
       t.end();
     }
   );
@@ -100,7 +104,7 @@ function render(settings, callback) {
 
   settings = settings();
 
-  this.container = this.container || document.body.appendChild(document.createElement('div'));
+  container = container || document.body.appendChild(document.createElement('div'));
   settings.onComplete = settings.onComplete && settings.onComplete.bind(null, callback);
 
   var component = <ReactF1
@@ -115,7 +119,7 @@ function render(settings, callback) {
   </ReactF1>;
 
   // TestUtils.renderIntoDocument(component);
-  ReactDom.render(component, this.container);
+  ReactDom.render(component, container);
 
   if(!settings.onComplete) {
     process.nextTick(function() {

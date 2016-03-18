@@ -1,9 +1,11 @@
 var React = require('react');
 var ReactDom = require('react-dom');
 var domSelect = require('dom-select');
-var Chief = require('../Chief');
+var Chief = require(process.env.PATH_CHIEF);
 var UI = require('./UI');
 var async = require('async');
+
+var container;
 
 var states = {
   out: {
@@ -100,6 +102,8 @@ module.exports = function(t) {
       t.ok(updateItem1WasDelayed, 'item 1 was delayed from item 2');
       t.ok(updateItemsWereInSameState, 'final call to update had item1 and item2 in idle');
 
+      container.parentNode.removeChild(container);
+
       t.end();
     }
   );
@@ -108,7 +112,7 @@ module.exports = function(t) {
 
 function render(settings, callback) {
 
-  this.container = this.container || document.body.appendChild(document.createElement('div'));
+  container = container || document.body.appendChild(document.createElement('div'));
   settings.onComplete = settings.onComplete && settings.onComplete.bind(null, callback);
 
   var component = <Chief
@@ -125,8 +129,7 @@ function render(settings, callback) {
     }
   </Chief>;
 
-  // TestUtils.renderIntoDocument(component);
-  ReactDom.render(component, this.container);
+  ReactDom.render(component, container);
 
   if(!settings.onComplete) {
     callback(null);
