@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react');
-var ReactF1 = require('../../..');
-var Chief = require('../../../Chief');
+var ReactF1 = require('../../../src');
+var Chief = require('../../../src/Chief');
 var states = require('./states');
 var transitions = require('./transitions');
 var FancyButton = require('../FancyButton');
