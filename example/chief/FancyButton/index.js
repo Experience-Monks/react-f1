@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-var ReactF1 = require('./../../..');
+var ReactF1 = require('../../../src');
 var states = require('./states');
 var transitions = require('./transitions');
 

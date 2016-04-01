@@ -107,7 +107,12 @@ class ReactF1 extends React.Component {
   }
 
   render() {
-    var style = this.props.style;
+    var style = merge(
+      {
+        perspective: '1000px'
+      },
+      this.props.style
+    );
 
     if (!this.f1) {
       style = merge({}, this.props.style, {

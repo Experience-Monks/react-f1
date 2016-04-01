@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-var ReactF1 = require('./../..');
+var ReactF1 = require('./../../src/');
 var getStates = require('./getStates');
 var getTransitions = require('./getTransitions');
 
@@ -19,6 +19,12 @@ class ExampleButton extends React.Component {
 
       // Transtions define how to animate between states
       transitions={getTransitions()}
+
+      style={{
+        width: 200,
+        height: 200,
+        perspective: 1000
+      }}
     >
       <div 
         // data-f1 indicates this div is a target which should be animated
