@@ -1,4 +1,4 @@
-	var React = require('react');
+var React = require('react');
 var ReactDom = require('react-dom');
 var domSelect = require('dom-select');
 var ReactF1 = require(process.env.PATH_F1);
