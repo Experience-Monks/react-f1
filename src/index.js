@@ -33,7 +33,9 @@ class ReactF1 extends React.Component {
       var f1 = this.f1 = f1DOM({
         el: el,
         states: props.states,
-        transitions: props.transitions
+        transitions: props.transitions,
+        targets: props.targets,
+        parsers: props.parsers
       });
 
       f1.on('state', this.handleState.bind(this));
