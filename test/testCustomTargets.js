@@ -91,7 +91,7 @@ function render(settings, callback) {
 
   settings.targets = {
   	item: target  	
-  }
+  };
 
   var component = <ReactF1
     {...settings}

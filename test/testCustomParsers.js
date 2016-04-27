@@ -93,7 +93,7 @@ function render(settings, callback) {
         item.innerHTML = (state.play)? 'The value has been set to true' : 'The value has been set to false';
       }
     ]
-  }
+  };
 
   var component = <ReactF1
     {...settings}
