@@ -54,14 +54,18 @@ class ReactF1 extends React.Component {
     var states;
 
     if (props.states) {
-
       merge(this.state.states, props.states);
 
       this.setState({
         states: this.state.states
       });
+    }
 
-      // force an update to f1 since we received new props
+    if(props.targets) {
+      this.f1.targets(props.targets);
+    }
+
+    if(props.states || props.targets) {
       this.f1.update();
     }
 
