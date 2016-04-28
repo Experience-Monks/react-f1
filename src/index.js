@@ -67,7 +67,6 @@ class ReactF1 extends React.Component {
       this.f1.targets(props.targets);
 
     if(props.states || props.targets)
-       // force an update to f1 since we received new props
       this.f1.update();
 
     if (props.go) {
