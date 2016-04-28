@@ -54,20 +54,20 @@ class ReactF1 extends React.Component {
     var states;
 
     if (props.states) {
-
       merge(this.state.states, props.states);
 
       this.setState({
         states: this.state.states
       });
-
     }
 
-    if(props.targets)
+    if(props.targets) {
       this.f1.targets(props.targets);
+    }
 
-    if(props.states || props.targets)
+    if(props.states || props.targets) {
       this.f1.update();
+    }
 
     if (props.go) {
       if (this.f1) {
