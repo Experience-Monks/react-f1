@@ -1,3 +1,8 @@
+# 7.1.1
+
+Fixes:
+- Passing targets a second time will cause an update to f1 targets and a re-render.
+
 # 7.1.0
 
 Fixes:
