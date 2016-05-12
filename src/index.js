@@ -1,6 +1,6 @@
 'use strict';
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if(Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var React = require('react');
 var ReactDom = require('react-dom');
@@ -14,12 +14,13 @@ class ReactF1 extends React.Component {
 
     this.hasMounted = false;
     this.f1 = null;
+    this.f1States = null;
 
     this.state = {};
   }
 
   setupFromProps(props) {
-    if (!this.f1) {
+    if(!this.f1) {
       this.initFromProps(props);
     } else {
       this.updateFromProps(props);
@@ -27,12 +28,14 @@ class ReactF1 extends React.Component {
   }
 
   initFromProps(props) {
-    if (this.hasMounted && props.go && props.states && props.transitions) {
+    if(this.hasMounted && !this.f1 && props.go && props.states && props.transitions) {
+
+      this.f1States = merge({}, props.states);
 
       var el = ReactDom.findDOMNode(this);
       var f1 = this.f1 = f1DOM({
         el: el,
-        states: props.states,
+        states: this.f1States,
         transitions: props.transitions,
         targets: props.targets,
         parsers: props.parsers
@@ -42,10 +45,6 @@ class ReactF1 extends React.Component {
       f1.on('update', this.handleUpdate.bind(this));
       this.updateListenersFromProps(props);
 
-      this.setState({
-        states: props.states
-      });
-
       f1.init(props.go);
     }
   }
@@ -53,24 +52,23 @@ class ReactF1 extends React.Component {
   updateFromProps(props) {
     var states;
 
-    if (props.states) {
-      merge(this.state.states, props.states);
+    if(this.f1) {
+      // if we've received new states then just mege into current states
+      if(props.states) {
+        merge(this.f1States, props.states);
+      }
 
-      this.setState({
-        states: this.state.states
-      });
-    }
+      // if we've received targets then reset them
+      if(props.targets) {
+        this.f1.targets(props.targets);
+      }
 
-    if(props.targets) {
-      this.f1.targets(props.targets);
-    }
+      // call update to ensure everything looks right and is in its calculated state
+      if(props.states || props.targets) {
+        this.f1.update();
+      }
 
-    if(props.states || props.targets) {
-      this.f1.update();
-    }
-
-    if (props.go) {
-      if (this.f1) {
+      if(props.go) {
         this.f1.go(props.go, props.onComplete);
       }
     }
@@ -86,13 +84,13 @@ class ReactF1 extends React.Component {
   }
 
   handleUpdate() {
-    if (this.state.onUpdate) {
+    if(this.state.onUpdate) {
       this.state.onUpdate.apply(undefined, arguments);
     }
   }
 
   handleState() {
-    if (this.state.onState) {
+    if(this.state.onState) {
       this.state.onState.apply(undefined, arguments);
     }
   }
@@ -107,7 +105,7 @@ class ReactF1 extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.f1) {
+    if(this.f1) {
       this.f1.destroy();
     }
   }
@@ -120,7 +118,7 @@ class ReactF1 extends React.Component {
       this.props.style
     );
 
-    if (!this.f1) {
+    if(!this.f1) {
       style = merge({}, this.props.style, {
         display: 'none'
       });
@@ -140,14 +138,14 @@ function findTargets(children, targets) {
   targets = targets || {};
 
   React.Children.forEach(children, function (child) {
-    if (child.props) {
+    if(child.props) {
       var targetName = child.props['f1-target'];
 
-      if (targetName) {
+      if(targetName) {
         targets[targetName] = child;
       }
 
-      if (child.props.children) {
+      if(child.props.children) {
         findTargets(child.props.children, targets);
       }
     }

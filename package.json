@@ -25,8 +25,8 @@
     "chief-example": "npm run example-chief",
     "browser": "npm run dev-browser",
     "node": "babel-node test/index.js",
-    "dev-browser": "budo test/index.js --live --open",
-    "dev-node": "nodemon --exec \"babel-node test/index.js\""
+    "dev-browser": "PATH_F1='./../src/' PATH_CHIEF='../src/Chief' budo test/index.js --live --open",
+    "dev-node": "PATH_F1='./../src/' PATH_CHIEF='../src/Chief' nodemon --exec \"babel-node test/index.js\""
   },
   "browserify": {
     "transform": [
