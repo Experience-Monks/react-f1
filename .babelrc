@@ -1,3 +1,7 @@
 {
-  "presets": ["react"]
+  "plugins": ["transform-inline-environment-variables"],
+  "presets": [
+    "react",
+    "es2015"
+  ]
 }
