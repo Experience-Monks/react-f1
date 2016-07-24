@@ -106,6 +106,14 @@ class ReactF1 extends React.Component {
     }
   }
 
+  cleanProps(props) {
+    delete props.go;
+    delete props.transitions;
+    delete props.states;
+    delete props.onComplete;
+    return props;
+  }
+
   render() {
     var style = merge(
       {
@@ -120,34 +128,16 @@ class ReactF1 extends React.Component {
       });
     }
 
+    var props = _extends({}, this.props, {
+      style: style
+    });
+
     return React.createElement(
       'div',
-      _extends({}, this.props, {
-        style: style
-      }),
+      this.cleanProps(props),
       this.props.children
     );
   }
-}
-
-function findTargets(children, targets) {
-  targets = targets || {};
-
-  React.Children.forEach(children, function (child) {
-    if (child.props) {
-      var targetName = child.props['f1-target'];
-
-      if (targetName) {
-        targets[targetName] = child;
-      }
-
-      if (child.props.children) {
-        findTargets(child.props.children, targets);
-      }
-    }
-  });
-
-  return targets;
 }
 
 module.exports = ReactF1;
