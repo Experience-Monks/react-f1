@@ -14,6 +14,7 @@ class ReactF1 extends React.Component {
 
     this.hasMounted = false;
     this.f1 = null;
+    this.f1States = null;
 
     this.state = {};
   }
@@ -27,22 +28,22 @@ class ReactF1 extends React.Component {
   }
 
   initFromProps(props) {
-    if (this.hasMounted && props.go && props.states && props.transitions) {
+    if(this.hasMounted && !this.f1 && props.go && props.states && props.transitions) {
+
+      this.f1States = merge({}, props.states);
 
       var el = ReactDom.findDOMNode(this);
       var f1 = this.f1 = f1DOM({
         el: el,
-        states: props.states,
-        transitions: props.transitions
+        states: this.f1States,
+        transitions: props.transitions,
+        targets: props.targets,
+        parsers: props.parsers
       });
 
       f1.on('state', this.handleState.bind(this));
       f1.on('update', this.handleUpdate.bind(this));
       this.updateListenersFromProps(props);
-
-      this.setState({
-        states: props.states
-      });
 
       f1.init(props.go);
     }
@@ -51,20 +52,23 @@ class ReactF1 extends React.Component {
   updateFromProps(props) {
     var states;
 
+    if(this.f1) {
+      // if we've received new states then just mege into current states
     if (props.states) {
+        merge(this.f1States, props.states);
+      }
 
-      merge(this.state.states, props.states);
+      // if we've received targets then reset them
+      if(props.targets) {
+        this.f1.targets(props.targets);
+      }
 
-      this.setState({
-        states: this.state.states
-      });
-
-      // force an update to f1 since we received new props
+      // call update to ensure everything looks right and is in its calculated state
+      if(props.states || props.targets) {
       this.f1.update();
     }
 
     if (props.go) {
-      if (this.f1) {
         this.f1.go(props.go, props.onComplete);
       }
     }

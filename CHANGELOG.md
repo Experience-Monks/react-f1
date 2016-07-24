@@ -1,3 +1,32 @@
+# 7.1.1
+
+Fixes:
+- Passing targets a second time will cause an update to f1 targets and a re-render.
+
+# 7.1.0
+
+Fixes:
+- Updated `peerDepencies` to work off `react@15.0.0` amd `react-dom@15.0.0`
+
+Features:
+- Can now pass in custom targets which are not defined via `data-f1` tags. This will allow for `react-f1` to control other targets that might manipulate the dom. Example: 
+```
+<ReactF1
+    targets={{
+        item: bodymovinInstance
+    }}
+>
+...
+```
+- Custom parsers can now be passed to `react-f1` the format should be the same as what `f1` defines. Example:
+```
+<ReactF1
+    parsers={{
+        init: [ /* functions to be run on init */ ],
+        update: [ /* functions to be run on update */ ]
+    }}
+```
+
 # 7.0.0
 
 Fixes:

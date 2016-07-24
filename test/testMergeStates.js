@@ -3,6 +3,7 @@ var ReactDom = require('react-dom');
 var domSelect = require('dom-select');
 var ReactF1 = require(process.env.PATH_F1);
 var async = require('async');
+var merge = require('deep-extend');
 
 var container;
 
@@ -89,15 +90,17 @@ module.exports = function(t) {
 };
 
 function getState(stateName, width, height) {
+  var newState = merge({}, states);
+
   Object.assign(
-    states[ stateName ].item.style,
+    newState[ stateName ].item.style,
     {
       width: width,
       height: height
     }
   );
 
-  return states;
+  return newState;
 }
 
 function render(settings, callback) {
