@@ -1,6 +1,6 @@
 'use strict';
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if(Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var React = require('react');
 var ReactDom = require('react-dom');
@@ -20,7 +20,7 @@ class ReactF1 extends React.Component {
   }
 
   setupFromProps(props) {
-    if(!this.f1) {
+    if (!this.f1) {
       this.initFromProps(props);
     } else {
       this.updateFromProps(props);
@@ -54,7 +54,7 @@ class ReactF1 extends React.Component {
 
     if(this.f1) {
       // if we've received new states then just mege into current states
-      if(props.states) {
+    if (props.states) {
         merge(this.f1States, props.states);
       }
 
@@ -65,10 +65,10 @@ class ReactF1 extends React.Component {
 
       // call update to ensure everything looks right and is in its calculated state
       if(props.states || props.targets) {
-        this.f1.update();
-      }
+      this.f1.update();
+    }
 
-      if(props.go) {
+    if (props.go) {
         this.f1.go(props.go, props.onComplete);
       }
     }
@@ -84,13 +84,13 @@ class ReactF1 extends React.Component {
   }
 
   handleUpdate() {
-    if(this.state.onUpdate) {
+    if (this.state.onUpdate) {
       this.state.onUpdate.apply(undefined, arguments);
     }
   }
 
   handleState() {
-    if(this.state.onState) {
+    if (this.state.onState) {
       this.state.onState.apply(undefined, arguments);
     }
   }
@@ -105,9 +105,17 @@ class ReactF1 extends React.Component {
   }
 
   componentWillUnmount() {
-    if(this.f1) {
+    if (this.f1) {
       this.f1.destroy();
     }
+  }
+
+  cleanProps(props) {
+    delete props.go;
+    delete props.transitions;
+    delete props.states;
+    delete props.onComplete;
+    return props;
   }
 
   render() {
@@ -118,40 +126,22 @@ class ReactF1 extends React.Component {
       this.props.style
     );
 
-    if(!this.f1) {
+    if (!this.f1) {
       style = merge({}, this.props.style, {
         display: 'none'
       });
     }
 
+    var props = _extends({}, this.props, {
+      style: style
+    });
+
     return React.createElement(
       'div',
-      _extends({}, this.props, {
-        style: style
-      }),
+      this.cleanProps(props),
       this.props.children
     );
   }
-}
-
-function findTargets(children, targets) {
-  targets = targets || {};
-
-  React.Children.forEach(children, function (child) {
-    if(child.props) {
-      var targetName = child.props['f1-target'];
-
-      if(targetName) {
-        targets[targetName] = child;
-      }
-
-      if(child.props.children) {
-        findTargets(child.props.children, targets);
-      }
-    }
-  });
-
-  return targets;
 }
 
 module.exports = ReactF1;
