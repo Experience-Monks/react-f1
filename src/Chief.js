@@ -1,5 +1,7 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var React = require('react');
 var f1Chief = require('f1/chief');
 var merge = require('deep-extend');
@@ -99,6 +101,15 @@ class Chief extends React.Component {
     return this.props.children(chiefState);
   }
 
+  cleanProps(props) {
+    delete props.go;
+    delete props.transitions;
+    delete props.states;
+    delete props.onComplete;
+    delete props.onUpdate;
+    return props;
+  }
+
   render() {
 
     var chiefState = this.state.chiefStates;
@@ -115,9 +126,11 @@ class Chief extends React.Component {
       children = this.props.children;
     }
 
+    var props = _extends({}, this.props);
+
     return React.createElement(
       'div',
-      this.props,
+      this.cleanProps(props),
       children
     );
   }

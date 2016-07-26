@@ -115,6 +115,7 @@ class ReactF1 extends React.Component {
     delete props.transitions;
     delete props.states;
     delete props.onComplete;
+    delete props.onUpdate;
     return props;
   }
 
