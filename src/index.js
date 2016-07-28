@@ -128,6 +128,15 @@ class ReactF1 extends React.Component {
     );
 
     if (!this.f1) {
+      let validState = Boolean(this.props.states);
+      let validTransition = Boolean(this.props.transitions);
+
+      if (!validState || !validTransition){
+        console.error("Hiding element. " + (!validState && !validTransition ? "States and transitions invalid or not defined." : "") 
+          + (!validState && validTransition ? "States invalid or not defined." : "") 
+          + (!validTransition && validState ? "Transitions invalid or not defined." : ""));
+      }
+
       style = merge({}, this.props.style, {
         display: 'none'
       });
