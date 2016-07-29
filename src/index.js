@@ -132,7 +132,7 @@ class ReactF1 extends React.Component {
       let validTransition = Boolean(this.props.transitions);
 
       if (!validState || !validTransition){
-        console.error("Hiding element. " + (!validState && !validTransition ? "States and transitions invalid or not defined." : "") 
+        throw new Error("Hiding element. " + (!validState && !validTransition ? "States and transitions invalid or not defined." : "") 
           + (!validState && validTransition ? "States invalid or not defined." : "") 
           + (!validTransition && validState ? "Transitions invalid or not defined." : ""));
       }
