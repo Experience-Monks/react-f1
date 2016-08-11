@@ -3,7 +3,6 @@
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var React = require('react');
-var ReactDom = require('react-dom');
 var f1DOM = require('f1-dom');
 var merge = require('deep-extend');
 
@@ -32,9 +31,8 @@ class ReactF1 extends React.Component {
 
       this.f1States = merge({}, props.states);
 
-      var el = ReactDom.findDOMNode(this);
       var f1 = this.f1 = f1DOM({
-        el: el,
+        el: this.el,
         states: this.f1States,
         transitions: props.transitions,
         targets: props.targets,
@@ -119,6 +117,10 @@ class ReactF1 extends React.Component {
     return props;
   }
 
+  getElement(el) {
+    this.el = el;
+  }
+
   render() {
     var style = merge(
       {
@@ -143,7 +145,8 @@ class ReactF1 extends React.Component {
     }
 
     var props = _extends({}, this.props, {
-      style: style
+      style: style,
+      ref: this.getElement.bind(this)
     });
 
     return React.createElement(
