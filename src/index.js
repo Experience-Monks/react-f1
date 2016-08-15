@@ -130,30 +130,31 @@ class ReactF1 extends React.Component {
     );
 
     if (!this.f1) {
-      let validState = Boolean(this.props.states);
-      let validTransition = Boolean(this.props.transitions);
+        var validState = Boolean(this.props.states);
+        var validTransition = Boolean(this.props.transitions);
+        var validGo = Boolean(this.props.go);
+        var elementName = null;
+        try{elementName = this.props["data-f1"] ? this.props["data-f1"] : this.props.children.props["data-f1"]} catch(err){}
 
-      if (!validState || !validTransition){
-        throw new Error("Hiding element. " + (!validState && !validTransition ? "States and transitions invalid or not defined." : "") 
-          + (!validState && validTransition ? "States invalid or not defined." : "") 
-          + (!validTransition && validState ? "Transitions invalid or not defined." : ""));
+        if (!validState || !validTransition || !validGo) {
+          console.warn("Hiding f1 element'" + (elementName ? " " + elementName : "")  + "'. "
+            + (!validState ? "States invalid or not defined. " : "") 
+            + (!validTransition ? "Transitions invalid or not defined. " : "") 
+            + (!validGo ? "'go' prop invalid or not defined." : ""));
+        }
+
+        style = merge({}, this.props.style, {
+          display: 'none'
+        });
       }
 
-      style = merge({}, this.props.style, {
-        display: 'none'
+      var props = _extends({}, this.props, {
+        style: style
       });
+
+      return React.createElement('div', this.cleanProps(props), this.props.children);
     }
-
-    var props = _extends({}, this.props, {
-      style: style,
-      ref: this.getElement.bind(this)
-    });
-
-    return React.createElement(
-      'div',
-      this.cleanProps(props),
-      this.props.children
-    );
+  }]);
   }
 }
 
