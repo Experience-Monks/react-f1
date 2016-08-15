@@ -36,8 +36,8 @@
   "dependencies": {
     "babel-plugin-transform-inline-environment-variables": "^6.5.0",
     "deep-extend": "^0.4.0",
-    "f1": "^7.1.0",
-    "f1-dom": "^8.0.4",
+    "f1": "^8.0.0",
+    "f1-dom": "^9.0.0",
     "gl-mat4": "^1.1.4"
   },
   "peerDependencies": {
