@@ -129,15 +129,16 @@ class ReactF1 extends React.Component {
       this.props.style
     );
 
-    if (!this.f1) {
+   if (!this.f1) {
+
         var validState = Boolean(this.props.states);
         var validTransition = Boolean(this.props.transitions);
         var validGo = Boolean(this.props.go);
         var elementName = null;
-        try{elementName = this.props["data-f1"] ? this.props["data-f1"] : this.props.children.props["data-f1"]} catch(err){}
+        try{elementName = this.props["data-f1"] ? this.props["data-f1"] : this.props.children.props["data-f1"]} catch(err){console.log("why")}
 
         if (!validState || !validTransition || !validGo) {
-          console.warn("Hiding f1 element'" + (elementName ? " " + elementName : "")  + "'. "
+          console.warn("Hiding f1 element" + (elementName ? " '" + elementName + "'. " : ". ")
             + (!validState ? "States invalid or not defined. " : "") 
             + (!validTransition ? "Transitions invalid or not defined. " : "") 
             + (!validGo ? "'go' prop invalid or not defined." : ""));
@@ -148,13 +149,16 @@ class ReactF1 extends React.Component {
         });
       }
 
-      var props = _extends({}, this.props, {
-        style: style
-      });
+    var props = _extends({}, this.props, {
+      style: style,
+      ref: this.getElement.bind(this)
+    });
 
-      return React.createElement('div', this.cleanProps(props), this.props.children);
-    }
-  }]);
+    return React.createElement(
+      'div',
+      this.cleanProps(props),
+      this.props.children
+    );
   }
 }
 
