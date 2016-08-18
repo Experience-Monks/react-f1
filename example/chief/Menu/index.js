@@ -10,7 +10,7 @@ var SelectIndicator = require('../SelectIndicator');
 
 /****************************************************************************/
 /***** You should probably just to the `render` function because that's *****/
-/***********************w here all the MAGIC happens ************************/
+/*********************** where all the MAGIC happens ************************/
 /****************************************************************************/
 class Menu extends React.Component {
 
