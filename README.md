@@ -113,6 +113,10 @@ The following describes on a high level how ReactF1 and Chief components are use
   // transitions is an Array which defines how ReactF1 should 
   // animate between states
   transitions={transitions}
+
+  // component is a string which determines the wrapper element
+  // It defaults to div but can be set to any dom element
+  component="div"
 >
   // the following defines components which will be animated
   // data-f1 associates these components with properties which
