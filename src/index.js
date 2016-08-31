@@ -114,6 +114,7 @@ class ReactF1 extends React.Component {
     delete props.states;
     delete props.onComplete;
     delete props.onUpdate;
+    delete props.component;
     return props;
   }
 
@@ -155,7 +156,7 @@ class ReactF1 extends React.Component {
     });
 
     return React.createElement(
-      'div',
+      this.props.component || 'div',
       this.cleanProps(props),
       this.props.children
     );

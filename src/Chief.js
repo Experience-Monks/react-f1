@@ -112,6 +112,7 @@ class Chief extends React.Component {
     delete props.states;
     delete props.onComplete;
     delete props.onUpdate;
+    delete props.component;
     return props;
   }
 
@@ -134,7 +135,7 @@ class Chief extends React.Component {
     var props = _extends({}, this.props);
 
     return React.createElement(
-      'div',
+      this.props.component || 'div',
       this.cleanProps(props),
       children
     );
