@@ -81,12 +81,7 @@ class Chief extends React.Component {
   }
 
   getTargetsFromStates(states) {
-    try{
-      var stateName = Object.keys(states)[0];
-    }
-    catch(err){
-      throw new Error("States not defined or invalid in a Chief parent element.")
-    }
+    var stateName = Object.keys(states)[0];
     var targets = {};
     var chiefState;
 
