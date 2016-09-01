@@ -132,17 +132,13 @@ class ReactF1 extends React.Component {
 
    if (!this.f1) {
 
-        var validState = Boolean(this.props.states);
-        var validTransition = Boolean(this.props.transitions);
-        var validGo = Boolean(this.props.go);
-        var elementName = null;
-        try{elementName = this.props["data-f1"] ? this.props["data-f1"] : this.props.children.props["data-f1"]} catch(err){}
+        var elementName = this.props["data-f1"] ? this.props["data-f1"] : this.props.children.props["data-f1"];
 
         if (!validState || !validTransition || !validGo) {
           console.warn("Hiding" + (elementName ? " " : " nameless ") + "f1 element" + (elementName ? " '" + elementName + "'. " : ". ")
-            + (!validState ? "States invalid or not defined. " : "") 
-            + (!validTransition ? "Transitions invalid or not defined. " : "") 
-            + (!validGo ? "'go' prop invalid or not defined." : ""));
+            + (!this.props.states ? "States invalid or not defined. " : "") 
+            + (!this.props.transitions ? "Transitions invalid or not defined. " : "") 
+            + (!this.props.go ? "'go' prop invalid or not defined." : ""));
         }
 
         style = merge({}, this.props.style, {
