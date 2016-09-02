@@ -134,7 +134,7 @@ class ReactF1 extends React.Component {
 
         var elementName = this.props["data-f1"] ? this.props["data-f1"] : this.props.children.props["data-f1"];
 
-        if (!validState || !validTransition || !validGo) {
+        if (!this.props.states || !this.props.transitions || !this.props.go) {
           console.warn("Hiding" + (elementName ? " " : " nameless ") + "f1 element" + (elementName ? " '" + elementName + "'. " : ". ")
             + (!this.props.states ? "States invalid or not defined. " : "") 
             + (!this.props.transitions ? "Transitions invalid or not defined. " : "") 
