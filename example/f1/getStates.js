@@ -27,7 +27,7 @@ module.exports = function getStates() {
         style: {
           // color's can be represented by arrays that are
           // [ red, green, blue, alpha ]
-          color: [ 0, 0, 0, 1 ],
+          color: [0, 0, 0, 1],
           marginTop: 0
         }
       }
@@ -54,7 +54,7 @@ module.exports = function getStates() {
         style: {
           // color's can be represented by arrays that are
           // [ red, green, blue, alpha ]
-          color: [ 255, 255, 255, 0.2 ],
+          color: [255, 255, 255, 0.2],
           marginTop: -40
         }
       }
